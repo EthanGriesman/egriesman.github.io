@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+    margin-bottom: 0;
+}
+
+/* Section styling */
+section {
+    padding: 60px 0;
+}
+
+/* Individual section backgrounds for contrast */
+#home {
+    background-color: #f8f9fa;
+}
+
+#projects {
+    background-color: #e9ecef;
+}
+
+#about {
+    background-color: #f8f9fa;
+}
+
+#contact {
+    background-color: #e9ecef;
+}
+
+/* Footer styling */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
