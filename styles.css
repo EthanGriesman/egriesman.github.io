@@ -12,21 +12,21 @@ section {
     padding: 60px 0;
 }
 
-/* Individual section backgrounds for contrast */
+/* Gradient backgrounds for sections */
 #home {
-    background-color: #f8f9fa;
+    background: linear-gradient(to right, #f8f9fa, #dee2e6);
 }
 
 #projects {
-    background-color: #e9ecef;
+    background: linear-gradient(to right, #e9ecef, #ced4da);
 }
 
 #about {
-    background-color: #f8f9fa;
+    background: linear-gradient(to right, #f8f9fa, #dee2e6);
 }
 
 #contact {
-    background-color: #e9ecef;
+    background: linear-gradient(to right, #e9ecef, #ced4da);
 }
 
 /* Footer styling */
