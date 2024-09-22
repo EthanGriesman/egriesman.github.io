@@ -4,34 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Website</title>
+    <title>Ethan Griesman</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pixel+Digivolve&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link to the external CSS file -->
     <link href="styles.css" rel="stylesheet">
+    <script src="scripts.js" defer></script> <!-- Linked JavaScript file -->
 </head>
 <body>
 
 <!-- Navigation Menu -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">Ethan Griesman</a>
+        <a class="navbar-brand" href="index.html"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#home">Home</a>
+                    <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#projects.html">Projects</a>
+                    <a class="nav-link" href="projects.html">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about.html">About Me</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact.html">Contact</a>
+                    <a class="nav-link" href="resume.html">Resume</a>
                 </li>
             </ul>
         </div>
@@ -39,25 +38,95 @@
 </nav>
 
 <!-- Home Section -->
-<section id="home" class="text-center">
+<section id="home">
     <div class="container">
-        <h1>Welcome to My Portfolio</h1>
-        <p>Hello! My name is Ethan Griesman. I'm a senior in Computer Engineering at Iowa State University</p>
+        <h1 class="fade-in hello">Hello!</h1>
+        <h2 class="fade-in my-name">My name is <span class="name-highlight">Ethan Griesman</span></h2>
+        <h3 class="fade-in title">I'm a student in Computer Engineering at Iowa State University</h3>
     </div>
 </section>
 
+<!-- About Me Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <!-- Floating Icons Bar just above the header -->
+        <div id="icons-container">
+            <div id="icons-bar">
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=py" alt="Python">
+                    <span class="icon-name">Python</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=java" alt="Java">
+                    <span class="icon-name">Java</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=c" alt="C">
+                    <span class="icon-name">C</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=html" alt="HTML">
+                    <span class="icon-name">HTML</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=css" alt="CSS">
+                    <span class="icon-name">CSS</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=js" alt="JavaScript">
+                    <span class="icon-name">JavaScript</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=figma" alt="Figma">
+                    <span class="icon-name">Figma</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino">
+                    <span class="icon-name">Arduino</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL">
+                    <span class="icon-name">MySQL</span>
+                </div>
+                <div class="icon-item">
+                    <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio">
+                    <span class="icon-name">Android Studio</span>
+                </div>
+                <!-- Add more icons as needed -->
+            </div>
+        </div>
+        <h2 class="mb-4 text-center">About Me</h2>
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <p class="lead fade-in">Through internship experiences, personal projects, coursework, and interdisciplinary research excursions, I have developed a unique set of skills across numerous domains. From embedded systems, to data analytics, to mobile app development, automation, and project management, I thrive in working outside of my comfort zone and actively seek new challenges and opportunities for growth.</p>
+                <p class="lead fade-in">In my free time, I enjoy playing video games with friends, reading, music production, watching history documentaries, tinkering with my computer and other technology, and hiking outdoors!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Contact Me</h2>
+        <!-- Icons -->
+        <div class="text-center mt-4">
+            <img src="https://skillicons.dev/icons?i=linkedin&theme=light" alt="LinkedIn" class="contact-icon">
+            <img src="https://skillicons.dev/icons?i=gmail&theme=light" alt="Gmail" class="contact-icon">
+            <img src="https://skillicons.dev/icons?i=github&theme=light" alt="GitHub" class="contact-icon">
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer>
-    <div class="container">
-        <p>&copy; 2024 Ethan Griesman. All rights reserved.</p>
-    </div>
+    <p>&copy; 2024 Ethan Griesman. All rights reserved.</p>
 </footer>
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script src="scripts.js"></script> <!-- Your custom script -->
 </body>
 </html>
