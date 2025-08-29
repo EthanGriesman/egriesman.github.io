@@ -1,4 +1,4 @@
-/* General body styling */
+/* ------------------ Global ------------------ */
 body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -6,7 +6,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Navbar styling with gradient */
+/* ------------------ Navbar ------------------ */
 .navbar {
     margin-bottom: 0;
     z-index: 10;
@@ -14,34 +14,29 @@ body {
     border: none;
 }
 
-/* Ensure navbar links have good contrast and readability */
 .navbar .nav-link {
     color: #ffffff;
     transition: color 0.3s ease, transform 0.3s ease;
-    padding: 10px 15px; /* Add padding around the links */
+    padding: 10px 15px;
 }
 
-/* Hover effects for navbar links */
 .navbar .nav-link:hover {
-    color: #ffd700; /* Change text color to gold on hover */
-    transform: scale(1.1); /* Slightly scale up the link */
+    color: #ffd700;
+    transform: scale(1.1);
 }
 
-/* Navbar brand */
 .navbar .navbar-brand {
     color: #ffffff;
     transition: color 0.3s ease;
 }
 
-/* Hover effects for navbar brand */
 .navbar .navbar-brand:hover {
-    color: #ffd700; /* Change text color to gold on hover */
+    color: #ffd700;
 }
 
-/* Section styling */
+/* ------------------ Sections ------------------ */
 section {
     padding: 0;
-    height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -49,298 +44,220 @@ section {
     text-align: center;
 }
 
-/* Gradient backgrounds for sections */
 #home {
+    height: 100vh;
     background: linear-gradient(to right, #333333, #d0cece);
 }
 
-/* Keyframes for fade-in animation */
+/* ------------------ Animations ------------------ */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* Add initial styling and animation for name and title */
 .fade-in {
-    opacity: 0; /* Start as invisible */
-    animation: fadeIn 2s forwards; /* Animation duration and persistence */
+    opacity: 0;
+    animation: fadeIn 2s forwards;
 }
 
-.fade-in.hello {
-    animation-delay: 0s; /* Delay for the Hello text */
+.fade-in.hello { animation-delay: 0s; }
+.fade-in.my-name { animation-delay: 1s; }
+.fade-in.title { 
+    animation-delay: 2.5s; 
+    font-size: 1.25rem; 
+    color: #ffffff; 
 }
+.fade-in.name-highlight { color: #02509e; }
 
-.fade-in.my-name {
-    animation-delay: 1s; /* Delay for the My name is text */
-}
-
-/* Style for Ethan Griesman specifically */
-.fade-in.name-highlight {
-    color: #02509e; /* Navy blue color for Ethan Griesman */
-}
-
-/* Style for the title or other text */
-.fade-in.title {
-    animation-delay: 2.5s; /* Delay for the student info text */
-    font-size: 1.25rem; /* Adjust font size to be smaller */
-    color: #ffffff; /* White color for the text */
-}
-
-/* Simplified styling for name */
-#home h1 {
+/* ------------------ Home Text Styling ------------------ */
+#home h1, #home h2, #home h3 {
     font-family: 'Pixel Digivolve', sans-serif;
-    font-size: 4rem; /* Size for the main greeting */
-    font-weight: bold;
-    color: #ffffff; /* White color for the text */
+    color: #ffffff;
     text-shadow: 
-        1px 1px 0 #000000,  /* Simple shadow to the top-left */
-        2px 2px 0 #000000,  /* Create a layered shadow effect */
+        1px 1px 0 #000000,
+        2px 2px 0 #000000,
         3px 3px 0 #000000,
         4px 4px 0 #000000,
-        5px 5px 15px rgba(0, 0, 0, 0.5); /* A final blur for a softer 3D look */
+        5px 5px 15px rgba(0,0,0,0.5);
 }
 
-#home h2 {
-    font-family: 'Pixel Digivolve', sans-serif;
-    font-size: 3.5rem; /* Size for the name introduction */
-    font-weight: bold;
-    color: #ffffff; /* Default color for the text */
-    text-shadow: 
-        1px 1px 0 #000000,  /* Simple shadow to the top-left */
-        2px 2px 0 #000000,  /* Create a layered shadow effect */
-        3px 3px 0 #000000,
-        4px 4px 0 #000000,
-        5px 5px 15px rgba(0, 0, 0, 0.5); /* A final blur for a softer 3D look */
-}
+#home h1 { font-size: 4rem; font-weight: bold; }
+#home h2 { font-size: 3.5rem; font-weight: bold; }
+#home h3 { font-size: 2rem; font-weight: normal; text-shadow: 1px 1px 0 #000000, 2px 2px 0 #000000, 3px 3px 0 #000000, 4px 4px 0 #000000, 5px 5px 10px rgba(0,0,0,0.5); }
 
-#home h3 {
-    font-family: 'Pixel Digivolve', sans-serif;
-    font-size: 2rem; /* Smaller size for the student info */
-    font-weight: normal;
-    color: #ffffff; /* White color for the text */
-    text-shadow: 
-        1px 1px 0 #000000,  /* Simple shadow to the top-left */
-        2px 2px 0 #000000,  /* Create a layered shadow effect */
-        3px 3px 0 #000000,
-        4px 4px 0 #000000,
-        5px 5px 10px rgba(0, 0, 0, 0.5); /* A final blur for a softer 3D look */
-}
-
-/* Specific style for the highlighted name part */
 .name-highlight {
-    color: #0065c9; /* Navy blue for the highlighted name */
-    font-family: 'PixelSplitter', serif; /* New font for the highlighted name */
+    color: #0065c9;
+    font-family: 'PixelSplitter', serif;
 }
 
-/* Container for icons in the Experience section */
+/* ------------------ Experience Icons ------------------ */
 #icons-container {
-    position: relative; /* Relative positioning to control the movement within the section */
-    width: 100%; /* Full width of the section */
-    height: 160px; /* Fixed height for the container */
-    overflow: hidden; /* Hide overflow */
-    margin-top: 20px; /* Optional: Space above the icons bar */
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    margin-top: 20px;
 }
 
-/* Floating icons bar styling */
 #icons-bar {
-    display: flex; /* Use flexbox to align items */
-    align-items: center; /* Center items vertically */
-    white-space: nowrap; /* Ensure icons stay in a single line */
-    animation: moveLeft 40s linear infinite; /* Adjust timing and speed as needed */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: moveLeft 40s linear infinite;
 }
 
-/* Animation for moving icons from right to left */
 @keyframes moveLeft {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
-/* Pause animation when hovering over icons */
-#icons-bar:hover {
-    animation-play-state: paused; /* Pause the animation */
-}
+#icons-bar:hover { animation-play-state: paused; }
 
-/* Style for icon items */
 .icon-item {
     display: inline-flex;
-    flex-direction: column; /* Stack image and name vertically */
-    align-items: center; /* Center items horizontally */
-    margin: 0 30px; /* Adjust space between icons */
-    transition: transform 0.1s ease, z-index 0.1s ease; /* Smooth transition for scaling */
+    flex-direction: column;
+    align-items: center;
+    margin: 0 30px;
+    transition: transform 0.1s ease, z-index 0.1s ease;
 }
 
-/* Hover effect for expanding the icon */
 .icon-item:hover {
-    transform: scale(1.0); /* Enlarge the hovered icon */
-    z-index: 10; /* Ensure the hovered icon is above the others */
+    transform: scale(1.0);
+    z-index: 10;
 }
 
-/* Styling for icon images */
 .icon-item img {
-    height: 60px; /* Adjust size of icons */
-    display: block; /* Remove inline spacing */
+    height: 60px;
+    display: block;
 }
 
-/* Styling for icon names */
 .icon-name {
-    margin-top: 5px; /* Space between image and name */
-    font-size: 0.9rem; /* Adjust font size as needed */
-    color: #333333; /* Adjust color as needed */
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #333333;
 }
 
-
-
-/* Animation for moving icons from right to left */
-@keyframes moveLeft {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
-/* About Me Section Header */
+/* ------------------ About Section ------------------ */
 #about h2 {
-    color: #001181; /* Text color */
-    padding: 1rem 2rem; /* Padding around the header */
-    font-size: 3.0rem; /* Font size */
+    color: #001181;
+    padding: 1rem 2rem;
+    font-size: 3rem;
     font-weight: bold;
     text-shadow: 
-        1px 1px 0 #000000, /* Subtle shadow effect */
-        2px 2px 1px rgba(0, 0, 0, 0.3); /* Reduced shadow for a softer look */
-    margin-bottom: 0.1rem; /* Space below the header */
+        1px 1px 0 #000000,
+        2px 2px 1px rgba(0,0,0,0.3);
+    margin-bottom: 0.1rem;
 }
 
-/* Contact Section */
+/* ------------------ Contact Section ------------------ */
 #contact {
-    color: #001181; /* Text color */
-    margin-top: -400px; /* Adjust this value to move the section up */
-    font-size: 3.0rem; /* Font size */
+    color: #001181;
+    margin-top: -400px;
+    font-size: 3rem;
     font-weight: bold;
     text-shadow: 
-        1px 1px 0 #000000, /* Subtle shadow effect */
-        2px 2px 1px rgba(0, 0, 0, 0.3); /* Reduced shadow for a softer look */
-    padding: 1rem 0; /* Optional: Adjust padding if needed */
-} 
-
-/* Contact Section Icons */
-#contact .text-center img {
-    display: inline-block;
-    transition: transform 0.3s ease; /* Smooth transition for scaling */
-    margin: 0 13px; /* Adjust horizontal spacing between icons */
-}
-
-#contact .text-center img:hover {
-    transform: scale(1.2); /* Enlarge the icon on hover */
-}
-
-/* Paused state for icons */
-.paused {
-    animation-play-state: paused;
-}
-
-/* Projects Section Styles */
-#projects {
-    margin-top: 220px; /* Adjust this value to ensure visibility of the header */
+        1px 1px 0 #000000,
+        2px 2px 1px rgba(0,0,0,0.3);
     padding: 1rem 0;
 }
 
-/* Modify project-card to take full width */
-.project-card {
-    width: 100%; /* Take full width of the container */
-    margin-bottom: 2rem; /* Add spacing between each card */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative; /* Position relative to use overlay */
-    background: #fff; /* White background for the card */
-    display: block; /* Ensure block display to take up full width */
+#contact .text-center img {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin: 0 13px;
 }
 
-/* Adjust the image to be responsive and take full width */
+#contact .text-center img:hover {
+    transform: scale(1.2);
+}
+
+/* ------------------ Projects Section ------------------ */
+#projects {
+    margin-top: 120px;
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+#projects h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00247e;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.project-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
 .project-image img {
-    width: 100%; /* Make the image take up the full width of the card */
-    height: auto;
-    transition: transform 0.3s ease; /* Smooth transition for image effect */
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .project-card:hover .project-image img {
-    transform: scale(1.1); /* Slightly enlarge image on hover */
-}
-
-/* Keep existing styles for hover effects, overlay, and content */
-.project-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(247, 247, 247, 0); /* Semi-transparent dark overlay */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.3s ease; /* Smooth transition */
-    z-index: 1; /* Ensure overlay is above the content */
-}
-
-.project-card:hover::before {
-    opacity: 1; /* Show overlay on hover */
+    transform: scale(1.05);
 }
 
 .project-content {
-    position: relative; /* Make sure content stays on top of overlay */
-    z-index: 2; /* Ensure content is above the overlay */
-    padding: 15px;
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Project title and details styling */
 .project-title {
-    color: #01268c;
     font-size: 1.25rem;
+    font-weight: 600;
+    color: #01268c;
     margin-bottom: 0.5rem;
 }
 
-.project-date {
-    color: #53585c;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-}
-
 .project-summary {
-    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 1rem;
+    flex-grow: 1;
 }
 
 .project-link {
     display: inline-block;
-    color: #007bff;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 6px;
     text-decoration: none;
-    font-weight: bold;
-    position: relative; /* Position relative to use with hover effects */
-    z-index: 2; /* Ensure link is above overlay */
+    background: #00247e;
+    color: #fff;
+    transition: background 0.3s ease;
 }
 
 .project-link:hover {
-    text-decoration: underline;
+    background: #ffd700;
+    color: #000;
+    text-decoration: none;
 }
 
-/* Footer Styles */
+/* ------------------ Footer ------------------ */
 footer {
     background-color: #343a40;
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    margin-top: 2rem; /* Ensure footer is below the content */
+    margin-top: 2rem;
 }
-
-
-
