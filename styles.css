@@ -45,8 +45,18 @@ section {
 }
 
 #home {
-    height: 100vh;
-    background: linear-gradient(to right, #333333, #d0cece);
+    eight: 100vh;
+    background-image: url('images/your-background.jpg'); /* Replace with your image path */
+    background-size: cover;       /* Ensures image covers the section */
+    background-position: center;  /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* Vertically center text */
+    align-items: center;          /* Horizontally center text */
+    text-align: center;
+    position: relative;
+    color: #ffffff;
 }
 
 /* ------------------ Animations ------------------ */
@@ -261,3 +271,4 @@ footer {
     padding: 1rem 0;
     margin-top: 2rem;
 }
+
