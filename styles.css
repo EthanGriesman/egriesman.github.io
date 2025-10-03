@@ -275,3 +275,46 @@ footer {
   padding: 1rem 0;
   margin-top: 2rem;
 }
+
+/* --- Animated hero reveals --- */
+.reveal-words { display: inline; }
+.reveal-words .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px) scale(.98);
+  filter: blur(6px);
+  will-change: transform, opacity, filter;
+  animation: riseIn .66s cubic-bezier(.2,.9,.25,1) forwards;
+  animation-delay: calc(var(--base-delay, 0ms) + var(--i) * 60ms);
+}
+
+/* Slightly slower, softer motion for h2 and h3 */
+h2 .w { animation-duration: .72s; }
+h3 .w { animation-duration: .78s; }
+
+/* Shimmer on your name after it reveals */
+.name-highlight {
+  position: relative;
+  background: linear-gradient(90deg, #4ea3ff, #9bd0ff, #4ea3ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;           /* uses gradient text */
+  background-size: 200% 100%;
+}
+.name-highlight.shimmer {
+  animation: shimmer 1.8s ease-in-out 900ms 1 both;
+}
+
+/* Keyframes */
+@keyframes riseIn {
+  0%   { opacity: 0; transform: translateY(18px) scale(.98); filter: blur(6px); }
+  60%  { opacity: 1; transform: translateY(0)    scale(1.02); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0)    scale(1.00); filter: blur(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: 0% 50%;   text-shadow: none; }
+  50%  { background-position: 100% 50%; text-shadow: 0 2px 12px rgba(80,150,255,.35); }
+  100% { background-position: 200% 50%; text-shadow: none; }
+}
+
+
