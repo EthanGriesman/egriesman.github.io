@@ -5,110 +5,158 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ethan Griesman | Experience</title>
-  
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="styles.css" rel="stylesheet" />
 
-  <!-- Favicon & App Icons -->
+  <!-- Bootstrap (kept lightweight) -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Clean, professional font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#0a0f1f"/>
 
   <style>
-    /* Timeline styling */
-    .timeline {
-      position: relative;
+    :root{
+      --bg: #0b1224;           /* page bg */
+      --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
+      --card: #ffffff;         /* cards */
+      --ink: #0e1528;          /* headings/body */
+      --muted: #677089;        /* captions */
+      --accent: #0d6efd;       /* links & timeline */
+      --ring: rgba(13,110,253,.18);
+      --radius: 18px;
+      --shadow-1: 0 10px 30px rgba(7, 14, 32, 0.10);
+      --shadow-2: 0 18px 55px rgba(7, 14, 32, 0.14);
+      --container: 1040px;
+    }
+
+    /* Base */
+    html,body{height:100%;}
+    body{
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      margin:0;
+      color:var(--ink);
+      background: radial-gradient(1000px 480px at 82% -10%, rgba(13,110,253,.14), transparent 60%), var(--bg-grad);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Nav */
+    .navbar{
+      background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: saturate(1.2) blur(4px);
+    }
+    .navbar .navbar-brand{ color:#e8eef8; font-weight:600; letter-spacing:.2px; }
+    .navbar-dark .navbar-nav .nav-link{ color:#c9d3e7; }
+    .navbar-dark .navbar-nav .nav-link:hover,
+    .navbar-dark .navbar-nav .nav-link.active{ color:#ffffff; }
+
+    .page{ padding-top:84px; }
+    .container{ max-width: var(--container); }
+
+    /* Header */
+    .hero{
+      text-align:center;
+      padding:64px 0 36px;
+      color:#e8eef8;
+    }
+    .hero h1{
+      margin:0 0 .3rem;
+      font-weight:700;
+      letter-spacing:.3px;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+    }
+    .hero p{ margin:0; color:#b7c3d9; }
+
+    /* Timeline spine */
+    .timeline{
+      position:relative;
+      margin: 18px 0 80px;
       padding-left: 40px;
-      margin: 40px 0;
-      border-left: 3px solid #007bff;
     }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 40px;
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left:18px; top:0; bottom:0;
+      width:3px;
+      background: linear-gradient(180deg, rgba(13,110,253,.15), rgba(13,110,253,.55) 25%, rgba(13,110,253,.15) 75%);
+      border-radius:2px;
     }
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -11px;
-      top: 5px;
-      width: 20px;
-      height: 20px;
-      background: #007bff;
-      border-radius: 50%;
+
+    /* Node */
+    .timeline-item{ position:relative; margin-bottom:28px; }
+    .timeline-item::before{
+      content:"";
+      position:absolute;
+      left:9px; top:42px;
+      width:16px; height:16px;
+      background:var(--accent); border-radius:50%;
+      box-shadow:0 0 0 6px rgba(13,110,253,.15);
     }
 
     /* Card */
-    .timeline-content {
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    .card-exp{
+      background:var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-1);
+      padding: 24px 26px;
+      display:flex; align-items:center; gap:22px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card-exp:hover{ transform: translateY(-3px); box-shadow: var(--shadow-2); }
 
-      /* NEW: logo + text layout */
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    /* Logo */
+    .logo-chip{
+      flex:0 0 104px; width:104px; height:104px;
+      border-radius:22px; background:#fff;
+      box-shadow: 0 1px 2px rgba(4,9,20,.08), 0 0 0 10px var(--ring);
+      display:grid; place-items:center; overflow:hidden;
     }
+    .logo-chip img{ width:88%; height:88%; object-fit:contain; }
 
-    /* NEW: logo box */
-    .company-logo {
-      flex: 0 0 96px;
-      width: 96px;
-      height: 96px;
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 1px 2px rgba(0,0,0,.08);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-    .company-logo img {
-      width: 90%;
-      height: 90%;
-      object-fit: contain;
-    }
+    /* Text */
+    .exp-body{ flex:1 1 auto; min-width:0; text-align:center; }
+    .exp-role{ margin:0 0 4px; font-size:1.3rem; font-weight:700; color:var(--ink); }
+    .exp-company{ margin:0 0 10px; font-weight:600; color:var(--muted); }
+    .exp-date{ margin:0 0 12px; font-weight:600; color:var(--accent); }
+    .exp-blurb{ margin:0; color:#263148; line-height:1.55; }
 
-    /* Text wrapper so headings don’t wrap under logo */
-    .timeline-text {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
+    .exp-date a{ color:var(--accent); text-decoration:none; }
+    .exp-date a:hover{ text-decoration:underline; }
 
-    .timeline h3 {
-      font-size: 1.3rem;
-      margin-bottom: 5px;
-    }
-    .timeline h5 {
-      font-size: 1.1rem;
-      color: #6c757d;
-      margin-bottom: 10px;
-    }
-    .timeline p.date {
-      font-weight: 500;
-      color: #007bff;
-      margin-bottom: 12px;
+    /* Footer */
+    footer{ background:#070d1f; color:#b7c3d9; }
+
+    /* Responsive */
+    @media (max-width: 720px){
+      .timeline{ padding-left: 30px; }
+      .timeline::before{ left:14px; }
+      .timeline-item::before{ left:5px; top:26px; }
+      .card-exp{ flex-direction:column; align-items:flex-start; gap:14px; padding:20px; }
+      .exp-body{ text-align:left; }
+      .logo-chip{ width:86px; height:86px; border-radius:18px; box-shadow: 0 1px 2px rgba(4,9,20,.08), 0 0 0 8px var(--ring); }
     }
 
-    /* Stack on phones */
-    @media (max-width: 576px) {
-      .timeline-content { flex-direction: column; align-items: flex-start; }
-      .company-logo { width: 56px; height: 56px; }
+    /* Motion preference */
+    @media (prefers-reduced-motion: reduce){
+      .card-exp{ transition:none; }
+      .card-exp:hover{ transform:none; }
     }
   </style>
 </head>
 <body>
 
-<!-- Navigation Menu -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="index.html">Ethan Griesman</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div id="nav" class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
@@ -119,76 +167,73 @@
   </div>
 </nav>
 
-<!-- Experience Section -->
-<section id="experience" class="py-5" style="margin-top: 75px;">
-  <div class="container">
-    <header class="text-center mb-5">
-      <h1 class="display-4">Professional Experience</h1>
-      <p class="lead">A chronological journey through my undergraduate and early professional career</p>
-    </header>
+<main class="page">
+  <section id="experience">
+    <div class="container">
+      <header class="hero">
+        <h1>Professional Experience</h1>
+        <p>A chronological journey through my undergraduate and early professional career</p>
+      </header>
 
-    <div class="timeline">
+      <div class="timeline">
 
-      <!-- Collins Aerospace -->
-      <div class="timeline-item">
-        <div class="timeline-content">
-          <div class="company-logo">
-            <img src="images/collins-aerospace.png" alt="Collins Aerospace logo" loading="lazy">
+        <!-- RTX Collins Aerospace -->
+        <article class="timeline-item">
+          <div class="card-exp">
+            <div class="logo-chip" aria-hidden="true">
+              <img src="images/collins-aerospace.png" alt="RTX Collins Aerospace logo" loading="lazy">
+            </div>
+            <div class="exp-body">
+              <h3 class="exp-role">Systems Engineering Co-Op</h3>
+              <p class="exp-company">RTX Collins Aerospace</p>
+              <p class="exp-date">Jan 2025 – Aug 2025</p>
+              <p class="exp-blurb">Teams: Enterprise Range Systems, Cross Domain Solutions (CDS), Integration &amp; Range Deployment.</p>
+            </div>
           </div>
-          <div class="timeline-text">
-            <h3>RTX Collins Aerospace</h3>
-            <h5>Systems Engineering Co-Op</h5>
-            <p class="date">Jan 2025 – Aug 2025</p>
-            <p>Teams: Enterprise Range Systems, Cross Domain Solutions (CDS), Integration & Range Deployment</p>
+        </article>
+
+        <!-- Hy-Vee -->
+        <article class="timeline-item">
+          <div class="card-exp">
+            <div class="logo-chip" aria-hidden="true">
+              <img src="images/hy-vee.png" alt="Hy-Vee logo" loading="lazy">
+            </div>
+            <div class="exp-body">
+              <h3 class="exp-role">SAP Data Intern</h3>
+              <p class="exp-company">Hy-Vee Inc.</p>
+              <p class="exp-date">May 2024 – Aug 2024</p>
+              <p class="exp-blurb">Supported SAP data workflows and store operations; improved data accuracy and contributed to measurable efficiencies in inventory management.</p>
+            </div>
           </div>
-        </div>
+        </article>
+
+        <!-- Iowa State University -->
+        <article class="timeline-item">
+          <div class="card-exp">
+            <div class="logo-chip" aria-hidden="true">
+              <img src="images/iastate.png" alt="Iowa State University logo" loading="lazy">
+            </div>
+            <div class="exp-body">
+              <h3 class="exp-role">Undergraduate Researcher</h3>
+              <p class="exp-company">Iowa State University</p>
+              <p class="exp-date">Sept 2022 – May 2024</p>
+              <p class="exp-blurb">Centers for Building Energy Research (CBER) &amp; ARA Wireless Living Lab. Contributed to sustainable energy and wireless communication initiatives.</p>
+            </div>
+          </div>
+        </article>
+
       </div>
-
-      <!-- Hy-Vee -->
-      <div class="timeline-item">
-        <div class="timeline-content">
-          <div class="company-logo">
-            <img src="images/hy-vee.png" alt="Hy-Vee logo" loading="lazy">
-          </div>
-          <div class="timeline-text">
-            <h3>Hy-Vee Inc.</h3>
-            <h5>SAP Data Intern</h5>
-            <p class="date">May 2024 – Aug 2024</p>
-            <p>Assisted with SAP data workflows and supported store management with operations, customer service, and process improvement initiatives. Improved data accuracy and contributed to efficiency gains in inventory management.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Undergraduate Research -->
-      <div class="timeline-item">
-        <div class="timeline-content">
-          <div class="company-logo">
-            <img src="images/iastate.png" alt="Iowa State University logo" loading="lazy">
-          </div>
-          <div class="timeline-text">
-            <h3>Iowa State University</h3>
-            <h5>Undergraduate Researcher</h5>
-            <p class="date">Sept 2022 – May 2024</p>
-            <p>Centers for Building Energy Research (CBER), ARA Wireless Living Lab. Supported projects advancing sustainable energy solutions and wireless communication research.</p>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-3">
-  <p>&copy; 2025 Ethan Griesman. All rights reserved.</p>
+<footer class="text-center py-3">
+  <p class="mb-0">&copy; 2025 Ethan Griesman. All rights reserved.</p>
 </footer>
 
-<!-- Bootstrap JS and dependencies -->
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>
-
-
