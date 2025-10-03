@@ -39,12 +39,44 @@
       background: #007bff;
       border-radius: 50%;
     }
+
+    /* Card */
     .timeline-content {
       background: #fff;
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+      /* NEW: logo + text layout */
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
+
+    /* NEW: logo box */
+    .company-logo {
+      flex: 0 0 64px;
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .company-logo img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    /* Text wrapper so headings don’t wrap under logo */
+    .timeline-text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
     .timeline h3 {
       font-size: 1.3rem;
       margin-bottom: 5px;
@@ -58,6 +90,12 @@
       font-weight: 500;
       color: #007bff;
       margin-bottom: 12px;
+    }
+
+    /* Stack on phones */
+    @media (max-width: 576px) {
+      .timeline-content { flex-direction: column; align-items: flex-start; }
+      .company-logo { width: 56px; height: 56px; }
     }
   </style>
 </head>
@@ -94,31 +132,45 @@
       <!-- Collins Aerospace -->
       <div class="timeline-item">
         <div class="timeline-content">
-          <h3>Systems Engineering Co-Op</h3>
-          <h5>Collins Aerospace</h5>
-          <p class="date">Jan 2025 – Aug 2025</p>
-          <p>Teams: Enterprise Range Systems, Cross Domain Solutions (CDS), Integration & Range Deployment</p>
+          <div class="company-logo">
+            <img src="images/collins-aerospace.png" alt="Collins Aerospace logo" loading="lazy">
+          </div>
+          <div class="timeline-text">
+            <h3>Systems Engineering Co-Op</h3>
+            <h5>Collins Aerospace</h5>
+            <p class="date">Jan 2025 – Aug 2025</p>
+            <p>Teams: Enterprise Range Systems, Cross Domain Solutions (CDS), Integration & Range Deployment</p>
+          </div>
         </div>
       </div>
-
 
       <!-- Hy-Vee -->
       <div class="timeline-item">
         <div class="timeline-content">
-          <h3>SAP Data Intern</h3>
-          <h5>Hy-Vee</h5>
-          <p class="date">May 2024 – Aug 2024</p>
-          <p>Assisted with SAP data workflows and supported store management with operations, customer service, and process improvement initiatives. Improved data accuracy and contributed to efficiency gains in inventory management.</p>
+          <div class="company-logo">
+            <img src="images/hy-vee.png" alt="Hy-Vee logo" loading="lazy">
+          </div>
+          <div class="timeline-text">
+            <h3>SAP Data Intern</h3>
+            <h5>Hy-Vee</h5>
+            <p class="date">May 2024 – Aug 2024</p>
+            <p>Assisted with SAP data workflows and supported store management with operations, customer service, and process improvement initiatives. Improved data accuracy and contributed to efficiency gains in inventory management.</p>
+          </div>
         </div>
       </div>
 
-            <!-- Undergraduate Research -->
+      <!-- Undergraduate Research -->
       <div class="timeline-item">
         <div class="timeline-content">
-          <h3>Undergraduate Research Assistant</h3>
-          <h5>Iowa State University</h5>
-          <p class="date">Sept 2022 – May 2024</p>
-          <p>Centers for Building Energy Research (CBER), ARA Wireless Living Lab. Supported projects advancing sustainable energy solutions and wireless communication research.</p>
+          <div class="company-logo">
+            <img src="images/iastate.png" alt="Iowa State University logo" loading="lazy">
+          </div>
+          <div class="timeline-text">
+            <h3>Undergraduate Research Assistant</h3>
+            <h5>Iowa State University</h5>
+            <p class="date">Sept 2022 – May 2024</p>
+            <p>Centers for Building Energy Research (CBER), ARA Wireless Living Lab. Supported projects advancing sustainable energy solutions and wireless communication research.</p>
+          </div>
         </div>
       </div>
 
@@ -138,4 +190,3 @@
 
 </body>
 </html>
-
