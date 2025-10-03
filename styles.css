@@ -1,274 +1,277 @@
-/* ------------------ Global ------------------ */
-body {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    margin: 0;
-    overflow-x: hidden;
+/* === Layout constants === */
+:root {
+  --nav-h: 72px;           /* adjust if your navbar is taller/shorter */
 }
 
-/* ------------------ Navbar ------------------ */
+/* === General body styling === */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  overflow-x: hidden;
+  padding-top: var(--nav-h);      /* keep content below fixed navbar */
+}
+
+/* === Navbar === */
 .navbar {
-    margin-bottom: 0;
-    z-index: 10;
-    background: linear-gradient(to right, #00247e, #000000);
-    border: none;
+  margin-bottom: 0;
+  z-index: 10;
+  background: linear-gradient(to right, #00247e, #000000);
+  border: none;
 }
 
 .navbar .nav-link {
-    color: #ffffff;
-    transition: color 0.3s ease, transform 0.3s ease;
-    padding: 10px 15px;
+  color: #ffffff;
+  transition: color 0.3s ease, transform 0.3s ease;
+  padding: 10px 15px;
 }
 
 .navbar .nav-link:hover {
-    color: #ffd700;
-    transform: scale(1.1);
+  color: #ffd700;
+  transform: scale(1.1);
 }
 
 .navbar .navbar-brand {
-    color: #ffffff;
-    transition: color 0.3s ease;
+  color: #ffffff;
+  transition: color 0.3s ease;
 }
 
 .navbar .navbar-brand:hover {
-    color: #ffd700;
+  color: #ffd700;
 }
 
-/* ------------------ Sections ------------------ */
+/* === Sections === */
 section {
-    padding: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  padding: 0;
+  min-height: 100vh;              /* allow content to grow */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  scroll-margin-top: var(--nav-h); /* anchor jumps land below navbar */
 }
 
+/* Hero / Home */
 #home {
-    eight: 100vh;
-    background-image: url('images/your-background.jpg'); /* Replace with your image path */
-    background-size: cover;       /* Ensures image covers the section */
-    background-position: center;  /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;      /* Vertically center text */
-    align-items: center;          /* Horizontally center text */
-    text-align: center;
-    position: relative;
-    color: #ffffff;
+  background: linear-gradient(to right, #333333, #d0cece);
+  padding-top: 1rem;              /* breathing room below navbar */
 }
 
-/* ------------------ Animations ------------------ */
+/* === Fade-in animation === */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 2s forwards;
-}
-
+.fade-in { opacity: 0; animation: fadeIn 2s forwards; }
 .fade-in.hello { animation-delay: 0s; }
 .fade-in.my-name { animation-delay: 1s; }
 .fade-in.title { 
-    animation-delay: 2.5s; 
-    font-size: 1.25rem; 
-    color: #ffffff; 
+  animation-delay: 2.5s;
+  font-size: 1.25rem;
+  color: #ffffff;                 /* ensure “Welcome” is bright */
 }
+
+/* Highlighted name */
 .fade-in.name-highlight { color: #02509e; }
 
-/* ------------------ Home Text Styling ------------------ */
-#home h1, #home h2, #home h3 {
-    font-family: 'Pixel Digivolve', sans-serif;
-    color: #ffffff;
-    text-shadow: 
-        1px 1px 0 #000000,
-        2px 2px 0 #000000,
-        3px 3px 0 #000000,
-        4px 4px 0 #000000,
-        5px 5px 15px rgba(0,0,0,0.5);
+/* === Hero typography === */
+#home h1 {
+  font-family: 'Pixel Digivolve', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 #000000,
+    2px 2px 0 #000000,
+    3px 3px 0 #000000,
+    4px 4px 0 #000000,
+    5px 5px 15px rgba(0,0,0,.5);
 }
 
-#home h1 { font-size: 4rem; font-weight: bold; }
-#home h2 { font-size: 3.5rem; font-weight: bold; }
-#home h3 { font-size: 2rem; font-weight: normal; text-shadow: 1px 1px 0 #000000, 2px 2px 0 #000000, 3px 3px 0 #000000, 4px 4px 0 #000000, 5px 5px 10px rgba(0,0,0,0.5); }
+#home h2 {
+  font-family: 'Pixel Digivolve', sans-serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 #000000,
+    2px 2px 0 #000000,
+    3px 3px 0 #000000,
+    4px 4px 0 #000000,
+    5px 5px 15px rgba(0,0,0,.5);
+}
 
+#home h3 {
+  font-family: 'Pixel Digivolve', sans-serif;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 600;
+  color: #ffffff;                 /* “Welcome to my Portfolio!” */
+  text-shadow:
+    1px 1px 0 #000000,
+    2px 2px 0 #000000,
+    3px 3px 0 #000000,
+    4px 4px 0 #000000,
+    5px 5px 10px rgba(0,0,0,.5);
+}
+
+/* Name highlight style */
 .name-highlight {
-    color: #0065c9;
-    font-family: 'PixelSplitter', serif;
+  color: #0065c9;
+  font-family: 'PixelSplitter', serif; /* ensure this font is loaded if you want it */
 }
 
-/* ------------------ Experience Icons ------------------ */
+/* === Experience — moving icons bar === */
 #icons-container {
-    position: relative;
-    width: 100%;
-    height: 160px;
-    overflow: hidden;
-    margin-top: 20px;
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  margin-top: 20px;
 }
 
 #icons-bar {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    animation: moveLeft 40s linear infinite;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: moveLeft 40s linear infinite;
 }
 
 @keyframes moveLeft {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
 #icons-bar:hover { animation-play-state: paused; }
 
 .icon-item {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 30px;
-    transition: transform 0.1s ease, z-index 0.1s ease;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+  transition: transform 0.1s ease, z-index 0.1s ease;
 }
 
-.icon-item:hover {
-    transform: scale(1.0);
-    z-index: 10;
-}
+.icon-item:hover { transform: scale(1.0); z-index: 10; }
 
-.icon-item img {
-    height: 60px;
-    display: block;
-}
+.icon-item img { height: 60px; display: block; }
 
 .icon-name {
-    margin-top: 5px;
-    font-size: 0.9rem;
-    color: #333333;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #333333;
 }
 
-/* ------------------ About Section ------------------ */
+.paused { animation-play-state: paused; }
+
+/* === About === */
 #about h2 {
-    color: #001181;
-    padding: 1rem 2rem;
-    font-size: 3rem;
-    font-weight: bold;
-    text-shadow: 
-        1px 1px 0 #000000,
-        2px 2px 1px rgba(0,0,0,0.3);
-    margin-bottom: 0.1rem;
+  color: #001181;
+  padding: 1rem 2rem;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow:
+    1px 1px 0 #000000,
+    2px 2px 1px rgba(0,0,0,.3);
+  margin-bottom: 0.1rem;
 }
 
-/* ------------------ Contact Section ------------------ */
+/* === Contact === */
 #contact {
-    color: #001181;
-    margin-top: -400px;
-    font-size: 3rem;
-    font-weight: bold;
-    text-shadow: 
-        1px 1px 0 #000000,
-        2px 2px 1px rgba(0,0,0,0.3);
-    padding: 1rem 0;
+  color: #001181;
+  margin-top: -400px; /* if this causes overlap, reduce the negative margin */
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow:
+    1px 1px 0 #000000,
+    2px 2px 1px rgba(0,0,0,.3);
+  padding: 1rem 0;
 }
 
 #contact .text-center img {
-    display: inline-block;
-    transition: transform 0.3s ease;
-    margin: 0 13px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+  margin: 0 13px;
 }
 
-#contact .text-center img:hover {
-    transform: scale(1.2);
-}
+#contact .text-center img:hover { transform: scale(1.2); }
 
-/* ------------------ Projects Section ------------------ */
+/* === Projects === */
 #projects {
-    margin-top: 120px;
-    padding: 3rem 0;
-    background: #f8f9fa;
-}
-
-#projects h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #00247e;
-    text-align: center;
-    margin-bottom: 2.5rem;
+  margin-top: 220px;
+  padding: 1rem 0;
 }
 
 .project-card {
-    background: #ffffff;
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.project-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  width: 100%;
+  margin-bottom: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  background: #fff;
+  display: block;
 }
 
 .project-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
 }
 
-.project-card:hover .project-image img {
-    transform: scale(1.05);
+.project-card:hover .project-image img { transform: scale(1.1); }
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 247, 247, 0);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
+
+.project-card:hover::before { opacity: 1; }
 
 .project-content {
-    padding: 1.25rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  z-index: 2;
+  padding: 15px;
 }
 
 .project-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #01268c;
-    margin-bottom: 0.5rem;
+  color: #01268c;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.project-summary {
-    font-size: 0.95rem;
-    color: #444;
-    margin-bottom: 1rem;
-    flex-grow: 1;
+.project-date {
+  color: #53585c;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
 }
+
+.project-summary { margin-bottom: 1.5rem; }
 
 .project-link {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    background: #00247e;
-    color: #fff;
-    transition: background 0.3s ease;
+  display: inline-block;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
 }
 
-.project-link:hover {
-    background: #ffd700;
-    color: #000;
-    text-decoration: none;
-}
+.project-link:hover { text-decoration: underline; }
 
-/* ------------------ Footer ------------------ */
+/* === Footer === */
 footer {
-    background-color: #343a40;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: 2rem;
+  background-color: #343a40;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
 }
-
