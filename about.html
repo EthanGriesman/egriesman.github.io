@@ -12,7 +12,7 @@
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-  <!-- Favicons (optional – reuse your existing ones if desired) -->
+  <!-- Favicon (optional) -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 
   <style>
@@ -43,7 +43,7 @@
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar (matches the other pages) */
+    /* Navbar */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -70,7 +70,7 @@
     }
     .header p{ color: var(--ink-muted); margin:0; }
 
-    /* Pulsate effect for the h1 (optional, subtle) */
+    /* Pulsate effect (subtle) */
     .pulse { display:inline-block; animation: pulseHeading 2.2s ease-in-out infinite; transform-origin:center; }
     @keyframes pulseHeading{
       0%,100%{ transform: scale(1); text-shadow: 0 6px 26px rgba(13,110,253,.22); }
@@ -91,18 +91,59 @@
     .icon-item img{ height:56px; display:block; }
     .icon-name{ margin-top:6px; font-size:.9rem; color:#e0e6f5; opacity:.9; }
 
-    /* Content card */
-    .about-card{
-      background: var(--card);
-      color: var(--ink-dark);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-1);
-      padding: 26px 28px;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .about-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-2); }
+    /* --- Premium ABOUT panel --- */
+    .about-panel{
+      --panel-bg: rgba(255,255,255,0.85);
+      --panel-ink: #0e1528;
 
-    .about-card .lead{ color:#263148; line-height:1.6; }
+      position: relative;
+      border-radius: 22px;
+      padding: 2px; /* gradient border */
+      background: linear-gradient(135deg,#9cc2ff 0%, #dfe7ff 35%, #ffffff 60%, #a9bfff 100%);
+      box-shadow: 0 12px 40px rgba(7,14,32,.14), 0 0 0 10px rgba(13,110,253,.06);
+      overflow: hidden;
+    }
+    .about-panel__content{
+      background: var(--panel-bg);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      padding: clamp(18px, 3vw, 28px);
+      color: var(--panel-ink);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+    }
+    .about-panel__quote{
+      position: absolute;
+      top: -10px; left: 18px;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: 1;
+      color: rgba(13,110,253,.18);
+      font-weight: 900;
+      pointer-events: none;
+      user-select: none;
+    }
+    .about-panel__content .lead{
+      color: #273149;
+      line-height: 1.65;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .about-panel__content p:last-child{ margin-bottom: 0; }
+    .about-panel__content p:first-of-type{ text-wrap: pretty; }
+    .about-panel__content p:first-of-type::first-letter{
+      font-size: 1.15em;
+      font-weight: 700;
+    }
+    @media (hover:hover){
+      .about-panel{ transition: transform .18s ease, box-shadow .18s ease; }
+      .about-panel:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 18px 56px rgba(7,14,32,.18), 0 0 0 12px rgba(13,110,253,.08);
+      }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .about-panel{ transition: none; }
+    }
 
     /* Contact block */
     .contact{
@@ -151,36 +192,16 @@
       <!-- Icons scroller -->
       <div id="icons-container" aria-label="Technology icons marquee">
         <div id="icons-bar">
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
-          </div>
-          <div class="icon-item">
-            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
-          </div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span></div>
+          <div class="icon-item"><img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span></div>
         </div>
       </div>
 
@@ -190,21 +211,24 @@
         <p>A little context on who I am and what I love building.</p>
       </header>
 
-      <!-- About card -->
-      <div class="about-card">
-        <p class="lead mb-3">
-          I’m a rising senior in Computer Engineering at Iowa State University, graduating in May 2026. From an early age, I’ve had an intense interest in the world and in using
-          engineering principles to understand and tackle real-world problems. Through internship/co-op experiences,
-          personal projects, coursework, and interdisciplinary research, I’ve developed a unique approach to problem solving in a plethora of settings. Be it embedded systems,
-          aerospace, data analytics, mobile app development, automation, or project management, I'm continuously striving to challenge myself and explore.
-        </p>
-        <p class="lead mb-3">
-          I’m most at home in <strong>Python</strong>, <strong>Java</strong>, and <strong>C</strong>, and I thrive in collaborative
-          teams where I’m pushed to improve—both in and out of the office.
-        </p>
-        <p class="lead mb-0">
-          Outside of work, you’ll find me spending time with close friends and family, reading, making music, binging documentaries, tinkering with computers, traveling to new places, and hiking.
-        </p>
+      <!-- Premium About Panel -->
+      <div class="about-panel">
+        <div class="about-panel__quote" aria-hidden="true">“</div>
+        <div class="about-panel__content">
+          <p class="lead">
+            I’m a rising senior in Computer Engineering at Iowa State University, graduating in May 2026. From an early age, I’ve had an intense interest in the world and in using
+            engineering principles to understand and tackle real-world problems. Through internship/co-op experiences,
+            personal projects, coursework, and interdisciplinary research, I’ve developed a unique approach to problem solving in a plethora of settings. Be it embedded systems,
+            aerospace, data analytics, mobile app development, automation, or project management, I'm continuously striving to challenge myself and explore.
+          </p>
+          <p class="lead">
+            I’m most at home in <strong>Python</strong>, <strong>Java</strong>, and <strong>C</strong>, and I thrive in collaborative
+            teams where I’m pushed to improve—both in and out of the office.
+          </p>
+          <p class="lead">
+            Outside of work, you’ll find me spending time with close friends and family, reading, making music, binging documentaries, tinkering with computers, traveling to new places, and hiking.
+          </p>
+        </div>
       </div>
 
       <!-- Contact -->
@@ -234,7 +258,6 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
