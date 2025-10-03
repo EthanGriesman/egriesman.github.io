@@ -1,158 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethan Griesman | Portfolio</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Pixel+Digivolve&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
-    <script src="scripts.js" defer></script> <!-- Linked JavaScript file -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ethan Griesman | About</title>
 
-    <!-- Favicon & App Icons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-    
-        <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Pixel+Digivolve&display=swap" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Favicons (optional – reuse your existing ones if desired) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+
+  <style>
+    :root{
+      --bg: #0b1224;
+      --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
+      --ink: #e8eef8;
+      --ink-muted: #b7c3d9;
+      --card: #ffffff;
+      --ink-dark: #0e1528;
+      --muted-dark: #677089;
+      --accent: #0d6efd;
+      --ring: rgba(13,110,253,.20);
+      --radius: 18px;
+      --shadow-1: 0 10px 30px rgba(7,14,32,.10);
+      --shadow-2: 0 18px 55px rgba(7,14,32,.14);
+      --container: 1040px;
+    }
+
+    html, body { height: 100%; }
+    body{
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      margin:0;
+      background:
+        radial-gradient(1100px 520px at 82% -10%, rgba(13,110,253,.16), transparent 60%),
+        var(--bg-grad);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Navbar (matches the other pages) */
+    .navbar{
+      background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: saturate(1.2) blur(4px);
+    }
+    .navbar .navbar-brand{ color:#e8eef8; font-weight:600; letter-spacing:.2px; }
+    .navbar-dark .nav-link{ color:#c9d3e7; }
+    .navbar-dark .nav-link:hover,
+    .navbar-dark .nav-link.active{ color:#ffffff; }
+
+    .page{ padding-top:84px; }
+    .container{ max-width: var(--container); }
+
+    /* Header */
+    .header{
+      text-align:center;
+      padding: 56px 0 28px;
+    }
+    .header h1{
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 .35rem;
+      text-shadow: 0 6px 26px rgba(13,110,253,.22);
+    }
+    .header p{ color: var(--ink-muted); margin:0; }
+
+    /* Pulsate effect for the h1 (optional, subtle) */
+    .pulse { display:inline-block; animation: pulseHeading 2.2s ease-in-out infinite; transform-origin:center; }
+    @keyframes pulseHeading{
+      0%,100%{ transform: scale(1); text-shadow: 0 6px 26px rgba(13,110,253,.22); }
+      50%{ transform: scale(1.035); text-shadow: 0 8px 36px rgba(13,110,253,.35); }
+    }
+    @media (prefers-reduced-motion: reduce){ .pulse{ animation:none; } }
+
+    /* Icon scroller */
+    #icons-container{ position:relative; width:100%; height:150px; overflow:hidden; margin: 14px 0 26px; }
+    #icons-bar{
+      display:flex; align-items:center; white-space:nowrap;
+      animation: moveLeft 40s linear infinite;
+    }
+    #icons-bar:hover{ animation-play-state: paused; }
+    @keyframes moveLeft{ 0%{ transform:translateX(100%);} 100%{ transform:translateX(-100%);} }
+
+    .icon-item{ display:inline-flex; flex-direction:column; align-items:center; margin:0 28px; }
+    .icon-item img{ height:56px; display:block; }
+    .icon-name{ margin-top:6px; font-size:.9rem; color:#e0e6f5; opacity:.9; }
+
+    /* Content card */
+    .about-card{
+      background: var(--card);
+      color: var(--ink-dark);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-1);
+      padding: 26px 28px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .about-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-2); }
+
+    .about-card .lead{ color:#263148; line-height:1.6; }
+
+    /* Contact block */
+    .contact{
+      text-align:center; margin-top: 28px;
+    }
+    .contact h2{
+      margin: 0 0 10px; font-weight:800; font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    }
+    .contact-logos img{
+      display:inline-block; margin: 0 14px; height:40px;
+      transition: transform .16s ease, filter .16s ease;
+      filter: drop-shadow(0 3px 12px rgba(13,110,253,.25));
+    }
+    .contact-logos img:hover{ transform: translateY(-2px); }
+
+    footer{
+      background:#070d1f; color:#b7c3d9; text-align:center;
+      padding:14px 0; margin-top:40px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Navigation Menu -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="index.html"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="experience.html">Experience</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="projects.html">Projects</a>
-                </li>
-            </ul>
-        </div>
+<!-- Nav -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Ethan Griesman</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item active"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+      </ul>
     </div>
+  </div>
 </nav>
 
-<!-- About Me Section -->
-<section id="about" class="py-5">
+<main class="page">
+  <section id="about">
     <div class="container">
-        <!-- Floating Icons Bar just above the header -->
-        <div id="icons-container">
-            <div id="icons-bar">
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=py" alt="Python">
-                    <span class="icon-name">Python</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=java" alt="Java">
-                    <span class="icon-name">Java</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=c" alt="C">
-                    <span class="icon-name">C</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=html" alt="HTML">
-                    <span class="icon-name">HTML</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=css" alt="CSS">
-                    <span class="icon-name">CSS</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=js" alt="JavaScript">
-                    <span class="icon-name">JavaScript</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=figma" alt="Figma">
-                    <span class="icon-name">Figma</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino">
-                    <span class="icon-name">Arduino</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL">
-                    <span class="icon-name">MySQL</span>
-                </div>
-                <div class="icon-item">
-                    <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio">
-                    <span class="icon-name">Android Studio</span>
-                </div>
-                <!-- Add more icons as needed -->
-            </div>
+
+      <!-- Icons scroller -->
+      <div id="icons-container" aria-label="Technology icons marquee">
+        <div id="icons-bar">
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
+          </div>
+          <div class="icon-item">
+            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
+          </div>
         </div>
-        <h2 class="mb-4 text-center">About Me</h2>
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                <p class="lead">I'm a rising senior in Computer Engineering at Iowa State University, graduating in May 2026. From a young age, I've been curious with an intense passion in using engineering principles to understand and solve real world problems. Through my internship/co-op experiences, personal projects, coursework, and interdisciplinary research, I have developed a unique set of skills across a myriad of domains. From embedded systems, to aerospace, to data analytics, to mobile app development, automation, and project management, I thrive in working outside of my comfort zone and actively seek new challenges and opportunities for growth.</p>
-                <p class="lead">While I am proficient in a diverse set of languages, the ones I'm most comfortable working with are Python, Java, and C. I enjoy collaborating in team environments, and being challenged to better myself both in and outside the office.</p>
-                <p class="lead">In my free time, I enjoy reading, making music, binge-watching documentaries, tinkering with my computer and other tech, traveling, and hiking outdoors.</p>
-            </div>
+      </div>
+
+      <!-- Header -->
+      <header class="header">
+        <h1 class="pulse">About Me</h1>
+        <p>A little context on who I am and what I love building.</p>
+      </header>
+
+      <!-- About card -->
+      <div class="about-card">
+        <p class="lead mb-3">
+          I’m a rising senior in Computer Engineering at Iowa State University (May 2026). From an early age I’ve been driven
+          to use engineering principles to understand and solve real-world problems. Through internship/co-op experiences,
+          personal projects, coursework, and interdisciplinary research, I’ve built a strong toolkit across embedded systems,
+          aerospace, data analytics, mobile app development, automation, and project management.
+        </p>
+        <p class="lead mb-3">
+          I’m most at home in <strong>Python</strong>, <strong>Java</strong>, and <strong>C</strong>, and I thrive in collaborative
+          teams where I’m pushed to improve—both in and out of the office.
+        </p>
+        <p class="lead mb-0">
+          Outside of work, you’ll find me reading, making music, binging documentaries, tinkering with computers, traveling, and hiking.
+        </p>
+      </div>
+
+      <!-- Contact -->
+      <div class="contact">
+        <h2 class="mt-4">Contact Me</h2>
+        <div class="contact-logos mt-2">
+          <a href="https://www.linkedin.com/in/ethangriesman/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <img src="https://skillicons.dev/icons?i=linkedin&theme=light" alt="LinkedIn">
+          </a>
+          <a href="mailto:ethan.griesman@gmail.com" aria-label="Email">
+            <img src="https://skillicons.dev/icons?i=gmail&theme=light" alt="Gmail">
+          </a>
+          <a href="https://github.com/EthanGriesman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <img src="https://skillicons.dev/icons?i=github&theme=light" alt="GitHub">
+          </a>
         </div>
+      </div>
+
     </div>
-</section>
+  </section>
+</main>
 
-<!-- Contact Section -->
-<h2 class="mb-4 text-center">Contact Me</h2>
-<div class="text-center mt-4">
-    <a href="https://www.linkedin.com/in/ethangriesman/" target="_blank" rel="noopener noreferrer">
-        <img src="https://skillicons.dev/icons?i=linkedin&theme=light" alt="LinkedIn" class="contact-icon" style="margin: 0 15px;">
-    </a>
-    <img src="https://skillicons.dev/icons?i=gmail&theme=light" alt="Gmail" class="contact-icon" style="margin: 0 15px;">
-    <a href="https://github.com/EthanGriesman" target="_blank" rel="noopener noreferrer">
-        <img src="https://skillicons.dev/icons?i=github&theme=light" alt="GitHub" class="contact-icon" style="margin: 0 15px;">
-    </a>
-</div>
-
-
-
-<!-- Footer -->
 <footer>
-    <p>&copy; 2025 Ethan Griesman. All rights reserved.</p>
+  <p class="mb-0">&copy; 2025 Ethan Griesman. All rights reserved.</p>
 </footer>
 
-<!-- Bootstrap JS and dependencies -->
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="scripts.js"></script> <!-- Your custom script -->
 </body>
 </html>
-
-
-
-
-
-
-
-
