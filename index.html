@@ -24,6 +24,7 @@
       --caret: rgba(255,255,255,.9);
     }
 
+    /* === Page layout: footer sticks to bottom; no gap below === */
     html, body { height: 100%; }
     body{
       display: flex;
@@ -32,12 +33,28 @@
       margin: 0;
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--ink);
-      background: #0b1224; /* fallback behind canvas */
+      background: #0b1224; /* fallback under canvas */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     main{ flex: 1; }
+
+    /* === Site-wide galaxy canvas behind everything === */
+    #galaxyCanvas{
+      position: fixed;
+      inset: 0;               /* full viewport */
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;             /* under all content */
+      pointer-events: none;
+      background:
+        radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
+        radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
+      filter: saturate(1.08) contrast(1.05);
+    }
+
+    /* All content sits above the canvas */
+    .navbar, .page, footer { position: relative; z-index: 2; }
 
     /* Navbar */
     .navbar{
@@ -52,28 +69,15 @@
 
     .page{ padding-top: 84px; }
 
-    /* ===== HERO (galaxy is hero-only again) ===== */
+    /* === HERO (text area; canvas is site-wide now) === */
     .hero{
       position: relative;
       overflow: hidden;
       padding: clamp(64px, 12vw, 128px) 0 clamp(56px, 8vw, 96px);
       text-align: center;
       isolation: isolate;
-      background: radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
-                  radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
     }
-    .hero .container{ max-width: 1040px; position: relative; z-index: 2; }
-
-    /* Galaxy canvas sits behind hero text only */
-    #galaxyCanvas{
-      position: absolute;
-      inset: 0;        /* fill hero */
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      filter: saturate(1.08) contrast(1.05);
-    }
+    .hero .container{ max-width: 1040px; }
 
     /* Soft glow behind text (above canvas, below text) */
     .hero-card{
@@ -123,7 +127,7 @@
 
     .prelude{ opacity:.9; font-weight:700; letter-spacing:.2px; }
 
-    /* Name = white, clean lift (kept) */
+    /* Name = pure white, no gloss */
     .name-highlight{
       color:#fff;
       text-shadow:
@@ -154,6 +158,7 @@
       100%{ transform:translateY(0); }
     }
 
+    /* Footer (no extra space; no glow) */
     footer{ background:#070d1f; color:#b7c3d9; text-align:center; padding:18px 0 20px; margin-top:0; }
 
     @media (prefers-reduced-motion: reduce){
@@ -163,6 +168,9 @@
   </style>
 </head>
 <body>
+
+<!-- SITE-WIDE GALAXY BACKGROUND -->
+<canvas id="galaxyCanvas" aria-hidden="true"></canvas>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
@@ -184,15 +192,12 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <!-- earlier galaxy: hero-only rotating spiral -->
-    <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
-
     <div class="container" id="hero-seq">
       <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
 
       <h2 class="mb-3" id="name-line">
-        <span class="prelude">My name is</span>
-        &nbsp;<span class="name-highlight" id="name-animated">Ethan Griesman</span>
+        <span class="prelude">My name is</span>&nbsp;
+        <span class="name-highlight" id="name-animated">Ethan Griesman</span>
       </h2>
 
       <h3 class="mb-4 welcome-line" id="welcome-line">Welcome to my Portfolio.</h3>
@@ -206,9 +211,8 @@
   <p class="mb-0">&copy; 2025 Ethan Griesman. All rights reserved.</p>
 </footer>
 
-<!-- JS -->
+<!-- JS: rotating galaxy, no mouse parallax -->
 <script>
-  // ===== CONFIG =====
   const CONFIG = {
     helloText: 'Hello!',
     typingSpeedMs: 85,
@@ -217,36 +221,27 @@
     nameJumpDurationMs: 780,
     welcomeWordDelayMs: 95,
     revealDelays: { nameLineAfterHelloMs: 150, welcomeAfterNameMs: 140 },
-
-    // Galaxy (hero-only, rotation only)
     galaxy: {
-      stars: 1800,
-      armStars: 1400,
-      bulgeStars: 600,
-      armTightness: 0.27,
-      armNoise: 0.55,
-      rotationSpeed: 0.0006,
-      scale: 1.0
+      stars: 1800, armStars: 1400, bulgeStars: 600,
+      armTightness: 0.27, armNoise: 0.55,
+      rotationSpeed: 0.0006, scale: 1.0
     }
   };
 
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Elements
     const helloSpan = document.getElementById('hello-typing');
-    const helloH1   = document.getElementById('hello');
-    const nameLine  = document.getElementById('name-line');
-    const nameSpan  = document.getElementById('name-animated');
+    const helloH1 = document.getElementById('hello');
+    const nameLine = document.getElementById('name-line');
+    const nameSpan = document.getElementById('name-animated');
     const welcomeEl = document.getElementById('welcome-line');
 
-    const canvas    = document.getElementById('galaxyCanvas');
-    const ctx       = canvas.getContext('2d');
-    const hero      = document.querySelector('.hero');
+    const canvas = document.getElementById('galaxyCanvas');
+    const ctx = canvas.getContext('2d');
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-    // Typewriter
     async function runHello(){
       const text = CONFIG.helloText;
       if (prefersReduced) {
@@ -257,23 +252,18 @@
       }
       helloSpan.textContent = '';
       helloSpan.classList.add('typing');
-      for (let i = 0; i < text.length; i++){
-        helloSpan.textContent += text[i];
-        await sleep(CONFIG.typingSpeedMs);
-      }
+      for (let i = 0; i < text.length; i++){ helloSpan.textContent += text[i]; await sleep(CONFIG.typingSpeedMs); }
       helloSpan.classList.remove('typing');
       await sleep(CONFIG.helloHoldAfterTyping);
       helloH1.classList.add('flicker');
     }
 
-    // Name letters jump
     function runNameLine(){
       nameLine.classList.add('line-in');
       const text = nameSpan.textContent;
       nameSpan.textContent = '';
       const frag = document.createDocumentFragment();
       const [winStart, winEnd] = CONFIG.nameJumpWindowMs;
-
       for (const ch of text){
         if (ch === ' '){ frag.appendChild(document.createTextNode(' ')); continue; }
         const s = document.createElement('span');
@@ -283,70 +273,55 @@
           const delay = winStart + Math.random() * (winEnd - winStart);
           s.style.animationDelay = `${delay}ms`;
           s.style.animationDuration = `${CONFIG.nameJumpDurationMs}ms`;
-        } else {
-          s.style.animation = 'none';
-        }
+        } else { s.style.animation = 'none'; }
         frag.appendChild(s);
       }
       nameSpan.appendChild(frag);
     }
 
-    // Welcome wave
     function runWelcome(){
       const words = welcomeEl.textContent.trim().split(/\s+/);
       const frag = document.createDocumentFragment();
       words.forEach((w, i) => {
         if (i>0) frag.appendChild(document.createTextNode(' '));
-        const wrap = document.createElement('span');
-        wrap.className = 'word';
-        const inner = document.createElement('span');
-        inner.textContent = w;
+        const wrap = document.createElement('span'); wrap.className = 'word';
+        const inner = document.createElement('span'); inner.textContent = w;
         if (!prefersReduced) inner.style.animationDelay = `${i * CONFIG.welcomeWordDelayMs}ms`;
-        wrap.appendChild(inner);
-        frag.appendChild(wrap);
+        wrap.appendChild(inner); frag.appendChild(wrap);
       });
-      welcomeEl.textContent = '';
-      welcomeEl.appendChild(frag);
+      welcomeEl.textContent = ''; welcomeEl.appendChild(frag);
     }
 
-    // ===== Earlier rotating spiral galaxy (hero-only) =====
+    // ==== Galaxy (site-wide fixed canvas, continuous rotation) ====
     let W=0,H=0,cx=0,cy=0,t=0;
     let stars=[], bulge=[], armPts=[];
     const g = CONFIG.galaxy;
 
-    function resizeCanvasToHero(){
-      const rect = hero.getBoundingClientRect();
+    function resizeCanvas(){
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
-      canvas.width  = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
+      const vw = window.innerWidth, vh = window.innerHeight;
+      canvas.style.width = vw + 'px'; canvas.style.height = vh + 'px';
+      canvas.width = Math.floor(vw * dpr); canvas.height = Math.floor(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      W = rect.width; H = rect.height; cx = W/2; cy = H*0.45;
+      W = vw; H = vh; cx = W/2; cy = H*0.45;
     }
 
-    function randn(mean=0, std=1){
-      let u=0, v=0; while(!u) u=Math.random(); while(!v) v=Math.random();
-      return mean + std * Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
-    }
+    function randn(mean=0, std=1){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return mean + std*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
 
     function makeGalaxy(){
       stars=[]; bulge=[]; armPts=[];
-      // bulge
       for(let i=0;i<g.bulgeStars;i++){
         const r = Math.abs(randn(0, 60)) * (0.6 + Math.random()*0.8) * g.scale;
         const a = Math.random()*Math.PI*2;
         bulge.push({ x:r*Math.cos(a), y:r*Math.sin(a)*0.7, s:0.7+Math.random()*1.6,
           c:`rgba(${200+Math.floor(Math.random()*55)}, ${180+Math.floor(Math.random()*40)}, 255, ${0.25+Math.random()*0.5})` });
       }
-      // arms
       const arms=2;
       for(let k=0;k<arms;k++){
         const armOffset = (k/arms)*Math.PI*2;
         for(let i=0;i<g.armStars;i++){
           const theta = (i/g.armStars)*(Math.PI*5) + armOffset;
-          const b = g.armTightness;
-          const rBase = 20*Math.exp(b*theta)*g.scale;
+          const rBase = 20*Math.exp(g.armTightness*theta)*g.scale;
           const r = rBase + randn(0, g.armNoise*28);
           const a = theta + randn(0,0.08);
           const ySkew = (Math.sin(theta*2)*6) + randn(0,2);
@@ -354,7 +329,6 @@
                         s:0.6+Math.random()*1.4, hue:210+Math.random()*60, alpha:0.15+Math.random()*0.55 });
         }
       }
-      // field
       for(let i=0;i<g.stars;i++){
         const R = Math.random()*Math.max(W,H)*0.7 + 120;
         const a = Math.random()*Math.PI*2;
@@ -366,17 +340,14 @@
 
     function draw(){
       ctx.clearRect(0,0,W,H);
-      ctx.save();
-      ctx.translate(cx, cy);
-      const rot = prefersReduced ? 0 : t * g.rotationSpeed;
-      ctx.rotate(rot);
+      ctx.save(); ctx.translate(cx, cy);
+      const rot = prefersReduced ? 0 : t * g.rotationSpeed; ctx.rotate(rot);
 
       const halo = ctx.createRadialGradient(0,0,0, 0,0, Math.max(W,H)*0.45);
       halo.addColorStop(0, "rgba(255,255,255,0.10)");
       halo.addColorStop(0.2, "rgba(200,220,255,0.08)");
       halo.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = halo;
-      ctx.beginPath(); ctx.arc(0,0, Math.max(W,H)*0.45, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(0,0, Math.max(W,H)*0.45, 0, Math.PI*2); ctx.fill();
 
       stars.forEach(s=> dot(s.x, s.y, s.s, `rgba(255,255,255,${s.a})`));
       armPts.forEach(p=> dot(p.x, p.y, p.s, `hsla(${p.hue}, 100%, ${65 + Math.random()*15}%, ${p.alpha})`));
@@ -387,24 +358,18 @@
       core.addColorStop(0.35, "rgba(255,220,200,0.45)");
       core.addColorStop(0.9, "rgba(120,160,255,0.06)");
       core.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = core;
-      ctx.beginPath(); ctx.arc(0,0, 140, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = core; ctx.beginPath(); ctx.arc(0,0, 140, 0, Math.PI*2); ctx.fill();
 
       ctx.restore();
       t++;
       if (!prefersReduced) requestAnimationFrame(draw);
     }
 
-    function boot(){
-      resizeCanvasToHero();
-      makeGalaxy();
-      draw();
-    }
-
+    function boot(){ resizeCanvas(); makeGalaxy(); draw(); }
     window.addEventListener('resize', boot);
     boot();
 
-    // text sequence
+    // Text sequence
     (async function(){
       await runHello();
       await sleep(CONFIG.revealDelays.nameLineAfterHelloMs);
