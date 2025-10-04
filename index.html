@@ -18,30 +18,48 @@
     :root{
       --ink: #e8eef8;
       --ink-muted: #c0cae6;
-
-      /* navy for your name */
       --navy: #00247e;
       --navy-glow: rgba(0,36,126,.38);
       --rim: #9cc7ff;
-
-      /* 3D stack */
       --depth1: #09132b;
       --depth2: #081127;
       --depth3: #070f23;
       --caret: rgba(255,255,255,.9);
     }
 
+    /* ===== Layout: make footer stick to bottom with no extra space ===== */
     html, body { height: 100%; }
     body{
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
       margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--ink);
-      background: #0b1224;
+      background: #0b1224; /* fallback behind canvas */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    main{ flex: 1; }
 
-    /* Navbar (kept minimal) */
+    /* ===== Site-wide galaxy canvas (fixed, full screen, behind everything) ===== */
+    #galaxyCanvas{
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;          /* below all content */
+      background:
+        radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
+        radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
+      filter: saturate(1.08) contrast(1.05);
+      pointer-events: none;
+    }
+
+    /* Content always above canvas */
+    .navbar, .page, footer { position: relative; z-index: 2; }
+
+    /* Navbar */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -62,24 +80,9 @@
       text-align: center;
       isolation: isolate;
     }
+    .hero .container{ max-width: 1040px; }
 
-    /* FULL-BLEED CANVAS behind text */
-    #galaxyCanvas{
-      position: absolute;
-      inset: 0;             /* cover entire hero */
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      background:
-        radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
-        radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
-      filter: saturate(1.08) contrast(1.05);
-    }
-
-    /* Text container sits above canvas */
-    .hero .container{ position: relative; z-index: 2; }
-
-    /* Optional soft glow layer above canvas but behind text */
+    /* Soft glow behind text (still above canvas) */
     .hero-card{
       position: absolute;
       inset: auto 50% -60px 50%;
@@ -106,7 +109,6 @@
         0 6px 0 var(--depth3),
         0 8px 12px rgba(0,0,0,.45);
     }
-
     .hero h1{
       font-weight: 800;
       font-size: clamp(2.7rem, 7vw, 4.5rem);
@@ -125,7 +127,7 @@
       margin-top: 1rem;
     }
 
-    /* Typewriter caret */
+    /* Typewriter caret + flicker */
     .typewriter{
       display: inline-block;
       white-space: nowrap;
@@ -183,7 +185,7 @@
       100% { transform: translateY(0)    scale(1); }
     }
 
-    /* Welcome wave (keeps words visible & spaced) */
+    /* Welcome wave with proper spacing */
     .welcome-line .word{ display:inline-block; position:relative; }
     .welcome-line .word > span{
       display:inline-block;
@@ -196,23 +198,27 @@
       100% { transform: translateY(0); }
     }
 
-    /* Reduced motion: freeze animations */
+    /* Footer — no top margin so there's no gap below */
+    footer{
+      background:#070d1f;
+      color:#b7c3d9;
+      text-align:center;
+      padding: 16px 0;
+      margin-top: 0;  /* <-- remove gap above footer */
+    }
+
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .typewriter { border-right: none !important; }
       .typing, .flicker, .line-in,
       .welcome-line .word > span, .jump-letter { animation: none !important; }
     }
-
-    footer{
-      background:#070d1f;
-      color:#b7c3d9;
-      text-align:center;
-      padding: 14px 0;
-      margin-top: 36px;
-    }
   </style>
 </head>
 <body>
+
+<!-- site-wide galaxy background -->
+<canvas id="galaxyCanvas" aria-hidden="true"></canvas>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
@@ -234,9 +240,6 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <!-- FULL HERO BACKGROUND -->
-    <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
-
     <div class="container" id="hero-seq">
       <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
 
@@ -268,7 +271,6 @@
     welcomeWordDelayMs: 95,
     revealDelays: { nameLineAfterHelloMs: 150, welcomeAfterNameMs: 140 },
 
-    // Galaxy (rotation only – no parallax)
     galaxy: {
       stars: 1800,
       armStars: 1400,
@@ -289,9 +291,9 @@
     const nameLine  = document.getElementById('name-line');
     const nameSpan  = document.getElementById('name-animated');
     const welcomeEl = document.getElementById('welcome-line');
+
     const canvas    = document.getElementById('galaxyCanvas');
     const ctx       = canvas.getContext('2d');
-    const hero      = document.querySelector('.hero');
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -345,7 +347,7 @@
       const words = welcomeEl.textContent.trim().split(/\s+/);
       const frag = document.createDocumentFragment();
       words.forEach((w, i) => {
-        if (i>0) frag.appendChild(document.createTextNode(' ')); // keep spaces
+        if (i>0) frag.appendChild(document.createTextNode(' '));
         const wrapper = document.createElement('span');
         wrapper.className = 'word';
         const inner = document.createElement('span');
@@ -358,23 +360,21 @@
       welcomeEl.appendChild(frag);
     }
 
-    // ===== Galaxy Renderer (full hero size, rotation only) =====
+    // ===== Galaxy Renderer (fixed, full screen, rotation only) =====
     let W=0,H=0,cx=0,cy=0,t=0;
     let stars=[], bulge=[], armPts=[];
     const g = CONFIG.galaxy;
 
-    function resizeCanvasToHero(){
-      const rect = hero.getBoundingClientRect();
+    function resizeCanvas(){
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
-      canvas.width  = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      canvas.style.width = vw + 'px';
+      canvas.style.height = vh + 'px';
+      canvas.width  = Math.floor(vw * dpr);
+      canvas.height = Math.floor(vh * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      W = rect.width;
-      H = rect.height;
-      cx = W/2;
-      cy = H*0.45;
+      W = vw; H = vh; cx = W/2; cy = H*0.45;
     }
 
     function randn(mean=0, std=1){
@@ -435,11 +435,9 @@
       ctx.save();
       ctx.translate(cx, cy);
 
-      // continuous rotation (no parallax)
       const rot = prefersReduced ? 0 : t * g.rotationSpeed;
       ctx.rotate(rot);
 
-      // background halo
       const halo = ctx.createRadialGradient(0,0,0, 0,0, Math.max(W,H)*0.45);
       halo.addColorStop(0, "rgba(255,255,255,0.10)");
       halo.addColorStop(0.2, "rgba(200,220,255,0.08)");
@@ -464,9 +462,8 @@
       if (!prefersReduced) requestAnimationFrame(draw);
     }
 
-    // boot
     function boot(){
-      resizeCanvasToHero();
+      resizeCanvas();
       makeGalaxy();
       draw();
     }
