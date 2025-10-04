@@ -12,35 +12,19 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet" />
 
-  <!-- Favicons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0a0f1f"/>
-
-  <!-- Site-wide CSS -->
-  <link href="styles.css" rel="stylesheet" />
 
   <style>
     :root{
-      --bg: #0b1224;
-      --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
       --ink: #e8eef8;
       --ink-muted: #c0cae6;
-      --accent: #0d6efd;
-      --btn-ink: #0e1528;
-      --ring: rgba(13,110,253,.22);
-      --radius: 16px;
-      --shadow-hero: 0 20px 60px rgba(7,14,32,.35);
-      --container: 1040px;
 
-      /* Brand navy + highlights */
+      /* navy for your name */
       --navy: #00247e;
       --navy-glow: rgba(0,36,126,.38);
       --rim: #9cc7ff;
 
-      /* 3D text depth colors */
+      /* 3D stack */
       --depth1: #09132b;
       --depth2: #081127;
       --depth3: #070f23;
@@ -50,16 +34,14 @@
     html, body { height: 100%; }
     body{
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(1200px 520px at 85% -10%, rgba(13,110,253,.16), transparent 60%),
-        var(--bg-grad);
-      color: var(--ink);
       margin: 0;
+      color: var(--ink);
+      background: #0b1224;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar */
+    /* Navbar (kept minimal) */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -71,29 +53,33 @@
     .navbar-dark .navbar-nav .nav-link.active{ color:#ffffff; }
 
     .page{ padding-top: 84px; }
-    .container{ max-width: var(--container); position: relative; z-index: 2; } /* above canvas */
 
-    /* HERO */
+    /* ===== HERO ===== */
     .hero{
-      padding: clamp(56px, 12vw, 120px) 0 clamp(48px, 8vw, 80px);
-      text-align: center;
       position: relative;
       overflow: hidden;
+      padding: clamp(56px, 12vw, 120px) 0 clamp(48px, 8vw, 80px);
+      text-align: center;
       isolation: isolate;
-      perspective: 800px;
     }
 
-    /* ======= ACTUAL GALAXY CANVAS ======= */
+    /* FULL-BLEED CANVAS behind text */
     #galaxyCanvas{
       position: absolute;
-      inset: -10% -10% -10% -10%;
+      inset: 0;             /* cover entire hero */
+      width: 100%;
+      height: 100%;
       z-index: 0;
-      background: radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
-                  radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
-      filter: saturate(1.1) contrast(1.05);
+      background:
+        radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
+        radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
+      filter: saturate(1.08) contrast(1.05);
     }
 
-    /* Decorative glow layer above canvas, below text */
+    /* Text container sits above canvas */
+    .hero .container{ position: relative; z-index: 2; }
+
+    /* Optional soft glow layer above canvas but behind text */
     .hero-card{
       position: absolute;
       inset: auto 50% -60px 50%;
@@ -106,21 +92,11 @@
       z-index: 1;
     }
 
-    /* ======= CREATIVE 3D TEXT LOOK ======= */
+    /* ===== Creative 3D text look ===== */
     .hero h1, .hero h2, .hero h3{
       font-family: 'Space Grotesk', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       letter-spacing: .2px;
       margin: 0;
-      transform-style: preserve-3d;
-      /* subtle chromatic micro-offset (creative but restrained) */
-      text-shadow:
-        0 0 0 var(--depth1),
-        .5px .5px 0 rgba(255, 80, 120, .08),
-        -.5px -.5px 0 rgba(80, 200, 255, .08);
-    }
-
-    .text-3d{
-      /* stacked shadow = faux extrusion */
       text-shadow:
         0 1px 0 var(--depth1),
         0 2px 0 var(--depth1),
@@ -131,46 +107,27 @@
         0 8px 12px rgba(0,0,0,.45);
     }
 
-    .sheen{
-      position: relative;
-    }
-    .sheen::after{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 25%, transparent 55%);
-      mix-blend-mode: screen;
-      transform: translateX(-100%);
-      animation: sheenPass 2.2s ease-out 1 1.2s forwards; /* one pass */
-      pointer-events: none;
-    }
-    @keyframes sheenPass{ to { transform: translateX(100%); } }
-
     .hero h1{
       font-weight: 800;
       font-size: clamp(2.7rem, 7vw, 4.5rem);
       line-height: 1.05;
       min-height: 1.2em;
-      transform: translateZ(28px);
     }
     .hero h2{
       font-weight: 800;
       font-size: clamp(1.45rem, 4.4vw, 2.35rem);
       margin-top: .8rem;
-      transform: translateZ(24px);
     }
     .hero h3{
       font-weight: 700;
       font-size: clamp(1.1rem, 3vw, 1.5rem);
       color: var(--ink);
       margin-top: 1rem;
-      transform: translateZ(20px);
     }
 
     /* Typewriter caret */
     .typewriter{
       display: inline-block;
-      position: relative;
       white-space: nowrap;
       overflow: hidden;
       border-right: 2px solid var(--caret);
@@ -206,14 +163,12 @@
         0 3px 0 var(--depth2),
         0 0 20px var(--navy-glow),
         0 8px 12px rgba(0,0,0,.45),
-        0 -1px 0 var(--rim); /* soft top rim */
+        0 -1px 0 var(--rim);
       font-weight: 800;
       text-decoration: none;
-      position: relative;
-      transform: translateZ(24px);
     }
 
-    /* Per-letter creative ripple-jump (one-time) */
+    /* Per-letter ripple jump (one-time) */
     .jump-letter{
       display: inline-block;
       will-change: transform;
@@ -228,7 +183,7 @@
       100% { transform: translateY(0)    scale(1); }
     }
 
-    /* Welcome wave — text always visible */
+    /* Welcome wave (keeps words visible & spaced) */
     .welcome-line .word{ display:inline-block; position:relative; }
     .welcome-line .word > span{
       display:inline-block;
@@ -243,7 +198,6 @@
 
     /* Reduced motion: freeze animations */
     @media (prefers-reduced-motion: reduce){
-      #galaxyCanvas { filter: none !important; }
       .typewriter { border-right: none !important; }
       .typing, .flicker, .line-in,
       .welcome-line .word > span, .jump-letter { animation: none !important; }
@@ -280,21 +234,18 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <!-- Real galaxy canvas -->
+    <!-- FULL HERO BACKGROUND -->
     <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
 
     <div class="container" id="hero-seq">
-      <!-- 1) Hello! -->
-      <h1 class="mb-2 text-3d sheen" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
+      <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
 
-      <!-- 2) My name is [Name] -->
-      <h2 class="mb-3 text-3d sheen" id="name-line">
+      <h2 class="mb-3" id="name-line">
         <span class="prelude">My name is </span>
         <span class="name-highlight" id="name-animated">Ethan Griesman</span>
       </h2>
 
-      <!-- 3) Welcome — always visible -->
-      <h3 class="mb-4 text-3d welcome-line sheen" id="welcome-line">Welcome to my Portfolio.</h3>
+      <h3 class="mb-4 welcome-line" id="welcome-line">Welcome to my Portfolio.</h3>
     </div>
 
     <div class="hero-card" aria-hidden="true"></div>
@@ -306,10 +257,6 @@
 </footer>
 
 <!-- JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
   // ===== CONFIG =====
   const CONFIG = {
@@ -321,17 +268,15 @@
     welcomeWordDelayMs: 95,
     revealDelays: { nameLineAfterHelloMs: 150, welcomeAfterNameMs: 140 },
 
-    // Galaxy
+    // Galaxy (rotation only – no parallax)
     galaxy: {
-      stars: 1800,          // total base stars
-      armStars: 1400,       // stars that sit on spiral arms
-      bulgeStars: 600,      // dense core/bulge
-      armTightness: 0.27,   // logarithmic spiral b (smaller = tighter)
-      armNoise: 0.55,       // radial jitter on arms
-      rotationSpeed: 0.0006,// radians/frame
-      parallax: 10,         // px max offset with mouse
-      supernovaRate: 0.002, // probability/frame for a bright flash
-      scale: 1.0            // global scale of galaxy
+      stars: 1800,
+      armStars: 1400,
+      bulgeStars: 600,
+      armTightness: 0.27,
+      armNoise: 0.55,
+      rotationSpeed: 0.0006, // radians/frame
+      scale: 1.0
     }
   };
 
@@ -346,6 +291,7 @@
     const welcomeEl = document.getElementById('welcome-line');
     const canvas    = document.getElementById('galaxyCanvas');
     const ctx       = canvas.getContext('2d');
+    const hero      = document.querySelector('.hero');
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
@@ -394,14 +340,14 @@
       nameSpan.appendChild(frag);
     }
 
-    /** Welcome wave (always visible) **/
+    /** Welcome wave with proper spacing */
     function runWelcome(){
-      const words = welcomeEl.textContent.split(' ');
+      const words = welcomeEl.textContent.trim().split(/\s+/);
       const frag = document.createDocumentFragment();
       words.forEach((w, i) => {
+        if (i>0) frag.appendChild(document.createTextNode(' ')); // keep spaces
         const wrapper = document.createElement('span');
         wrapper.className = 'word';
-        wrapper.appendChild(document.createTextNode(i ? ' ' : ''));
         const inner = document.createElement('span');
         inner.textContent = w;
         if (!prefersReduced) inner.style.animationDelay = `${i * CONFIG.welcomeWordDelayMs}ms`;
@@ -412,135 +358,99 @@
       welcomeEl.appendChild(frag);
     }
 
-    // ===== ACTUAL GALAXY RENDERER =====
-    let W=0,H=0, cx=0, cy=0, t=0, mouseX=0, mouseY=0, hasPointer=false;
+    // ===== Galaxy Renderer (full hero size, rotation only) =====
+    let W=0,H=0,cx=0,cy=0,t=0;
     let stars=[], bulge=[], armPts=[];
     const g = CONFIG.galaxy;
 
-    function resize(){
+    function resizeCanvasToHero(){
+      const rect = hero.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = canvas.clientWidth = canvas.offsetWidth;
-      H = canvas.clientHeight = canvas.offsetHeight;
-      canvas.width  = Math.floor(W * dpr);
-      canvas.height = Math.floor(H * dpr);
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      canvas.width  = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cx = W/2; cy = H*0.45;
+      W = rect.width;
+      H = rect.height;
+      cx = W/2;
+      cy = H*0.45;
     }
 
     function randn(mean=0, std=1){
-      // Box-Muller
-      let u=0, v=0; while(u===0) u=Math.random(); while(v===0) v=Math.random();
+      let u=0, v=0; while(!u) u=Math.random(); while(!v) v=Math.random();
       return mean + std * Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
     }
 
     function makeGalaxy(){
-      stars = [];
-      bulge = [];
-      armPts = [];
-
+      stars=[]; bulge=[]; armPts=[];
       // Bulge / core
       for(let i=0;i<g.bulgeStars;i++){
         const r = Math.abs(randn(0, 60)) * (0.6 + Math.random()*0.8) * g.scale;
         const a = Math.random()*Math.PI*2;
         bulge.push({
           x: r*Math.cos(a),
-          y: r*Math.sin(a)*0.7, // flatten a bit
+          y: r*Math.sin(a)*0.7,
           s: 0.7 + Math.random()*1.6,
           c: `rgba(${200+Math.floor(Math.random()*55)}, ${180+Math.floor(Math.random()*40)}, 255, ${0.25+Math.random()*0.5})`
         });
       }
-
-      // Spiral arms (2 main arms)
-      const arms = 2;
-      for(let aIdx=0; aIdx<arms; aIdx++){
-        const armOffset = (aIdx/arms) * Math.PI*2;
+      // Spiral arms
+      const arms=2;
+      for(let k=0;k<arms;k++){
+        const armOffset = (k/arms)*Math.PI*2;
         for(let i=0;i<g.armStars;i++){
-          // logarithmic spiral: r = a * e^(bθ)
-          const theta = (i / g.armStars) * (Math.PI*5) + armOffset; // ~2.5 turns
+          const theta = (i/g.armStars)*(Math.PI*5) + armOffset;
           const b = g.armTightness;
-          const rBase = 20 * Math.exp(b * theta) * g.scale;
-
-          // noise/jitter
-          const radialJitter = randn(0, g.armNoise * 28);
-          const angleJitter  = randn(0, 0.08);
-
-          const r = rBase + radialJitter;
-          const a = theta + angleJitter;
-
-          // dust lane skew
-          const ySkew = (Math.sin(theta*2)*6) + randn(0, 2);
-
+          const rBase = 20*Math.exp(b*theta)*g.scale;
+          const r = rBase + randn(0, g.armNoise*28);
+          const a = theta + randn(0,0.08);
+          const ySkew = (Math.sin(theta*2)*6) + randn(0,2);
           armPts.push({
             x: r*Math.cos(a),
             y: r*Math.sin(a)*0.72 + ySkew,
             s: 0.6 + Math.random()*1.4,
-            hue: 210 + Math.random()*60,        // blueish to purple
+            hue: 210 + Math.random()*60,
             alpha: 0.15 + Math.random()*0.55
           });
         }
       }
-
-      // sparse halo / field
-      const field = g.stars;
-      for(let i=0;i<field;i++){
+      // Field
+      for(let i=0;i<g.stars;i++){
         const R = Math.random()*Math.max(W,H)*0.7 + 120;
         const a = Math.random()*Math.PI*2;
-        stars.push({
-          x: R*Math.cos(a),
-          y: R*Math.sin(a)*0.6,
-          s: Math.random()*1.3 + 0.2,
-          a: 0.08 + Math.random()*0.25
-        });
+        stars.push({ x:R*Math.cos(a), y:R*Math.sin(a)*0.6, s:Math.random()*1.3+0.2, a:0.08+Math.random()*0.25 });
       }
     }
 
-    function drawStar(x,y,r, col){
+    function dot(x,y,r, col){
       ctx.beginPath();
       ctx.fillStyle = col;
       ctx.arc(x,y,r,0,Math.PI*2);
       ctx.fill();
     }
 
-    function render(){
+    function draw(){
       ctx.clearRect(0,0,W,H);
-
-      const parX = (mouseX - W/2) / (W/2);
-      const parY = (mouseY - H/2) / (H/2);
-      const px = prefersReduced? 0 : parX * g.parallax;
-      const py = prefersReduced? 0 : parY * g.parallax;
-
       ctx.save();
-      ctx.translate(cx + px, cy + py);
+      ctx.translate(cx, cy);
 
-      // Gentle rotation
+      // continuous rotation (no parallax)
       const rot = prefersReduced ? 0 : t * g.rotationSpeed;
       ctx.rotate(rot);
 
-      // BACK halo
-      const haloGrad = ctx.createRadialGradient(0,0,0, 0,0, Math.max(W,H)*0.45);
-      haloGrad.addColorStop(0, "rgba(255,255,255,0.10)");
-      haloGrad.addColorStop(0.2, "rgba(200,220,255,0.08)");
-      haloGrad.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = haloGrad;
+      // background halo
+      const halo = ctx.createRadialGradient(0,0,0, 0,0, Math.max(W,H)*0.45);
+      halo.addColorStop(0, "rgba(255,255,255,0.10)");
+      halo.addColorStop(0.2, "rgba(200,220,255,0.08)");
+      halo.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = halo;
       ctx.beginPath(); ctx.arc(0,0, Math.max(W,H)*0.45, 0, Math.PI*2); ctx.fill();
 
-      // FAR field stars
-      stars.forEach(s=>{
-        drawStar(s.x, s.y, s.s, `rgba(255,255,255,${s.a})`);
-      });
+      stars.forEach(s=> dot(s.x, s.y, s.s, `rgba(255,255,255,${s.a})`));
+      armPts.forEach(p=> dot(p.x, p.y, p.s, `hsla(${p.hue}, 100%, ${65 + Math.random()*15}%, ${p.alpha})`));
+      bulge.forEach(b=> dot(b.x, b.y, b.s, b.c));
 
-      // ARMS
-      armPts.forEach(p=>{
-        const a = `hsla(${p.hue}, 100%, ${65 + Math.random()*15}%, ${p.alpha})`;
-        drawStar(p.x, p.y, p.s, a);
-      });
-
-      // BULGE (dense core)
-      bulge.forEach(b=>{
-        drawStar(b.x, b.y, b.s, b.c);
-      });
-
-      // CORE glow
       const core = ctx.createRadialGradient(0,0,0, 0,0, 120);
       core.addColorStop(0, "rgba(255,255,240,0.8)");
       core.addColorStop(0.35, "rgba(255,220,200,0.45)");
@@ -549,39 +459,22 @@
       ctx.fillStyle = core;
       ctx.beginPath(); ctx.arc(0,0, 140, 0, Math.PI*2); ctx.fill();
 
-      // Rare supernova twinkle
-      if (!prefersReduced && Math.random() < g.supernovaRate){
-        const angle = Math.random()*Math.PI*2;
-        const rad = 80 + Math.random()*280;
-        const x = rad*Math.cos(angle);
-        const y = rad*Math.sin(angle)*0.75;
-        const r = 1.2 + Math.random()*2.2;
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        drawStar(x, y, r*2.5, 'rgba(255,255,200,.95)');
-        drawStar(x, y, r, 'rgba(200,220,255,.9)');
-        ctx.restore();
-      }
-
       ctx.restore();
       t++;
-      if (!prefersReduced) requestAnimationFrame(render);
+      if (!prefersReduced) requestAnimationFrame(draw);
     }
 
-    function onMove(e){
-      hasPointer = true;
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+    // boot
+    function boot(){
+      resizeCanvasToHero();
+      makeGalaxy();
+      draw();
     }
 
-    window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('resize', ()=>{ resize(); makeGalaxy(); });
+    window.addEventListener('resize', boot);
+    boot();
 
-    // Initial canvas setup
-    resize(); makeGalaxy(); render();
-
-    // TEXT sequence
+    // text sequence
     (async function(){
       await runHello();
       await sleep(CONFIG.revealDelays.nameLineAfterHelloMs);
