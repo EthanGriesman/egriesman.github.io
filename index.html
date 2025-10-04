@@ -9,8 +9,8 @@
   <!-- Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
@@ -28,7 +28,7 @@
       --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
       --ink: #e8eef8;
       --ink-muted: #b7c3d9;
-      --accent: #0d6efd; /* matches Experience page */
+      --accent: #0d6efd;
       --btn-ink: #0e1528;
       --ring: rgba(13,110,253,.22);
       --radius: 16px;
@@ -48,7 +48,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar (same vibe as experience page) */
+    /* Navbar */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -70,67 +70,59 @@
       overflow: hidden;
     }
 
+    /* Headings: new display font */
+    .hero h1, .hero h2, .hero h3{
+      font-family: 'Space Grotesk', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      letter-spacing: .2px;
+      margin: 0;
+    }
+
+    /* Baseline sizes (unchanged feel) */
     .hero h1{
       font-weight: 800;
-      letter-spacing: .4px;
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      margin: 0 0 .25rem;
+      font-size: clamp(2.6rem, 7vw, 4.25rem);
       text-shadow: 0 6px 26px rgba(13,110,253,.25);
+      line-height: 1.05;
     }
     .hero h2{
-      font-weight: 700;
-      font-size: clamp(1.2rem, 3.5vw, 2rem);
-      margin: .35rem 0 1rem;
-      color: #dbe6ff;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 4vw, 2.15rem);
+      margin-top: .65rem;
     }
     .hero h3{
       font-weight: 600;
-      font-size: clamp(1rem, 2.7vw, 1.25rem);
+      font-size: clamp(1.05rem, 2.8vw, 1.3rem);
       color: var(--ink-muted);
-      margin: 0 0 1.5rem;
+      margin-top: 1rem;
     }
+
+    /* Animated gradient name */
     .name-highlight{
-      color: #ffffff;
-      text-decoration: underline;
-      text-decoration-color: rgba(13,110,253,.55);
-      text-underline-offset: .18em;
-      text-decoration-thickness: 2px;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(90deg, #7aa8ff, #a1ffe0, #ffd38b, #7aa8ff);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite;
+      text-decoration: none; /* we’ll use a custom underline instead */
+    }
+    .name-highlight::after{
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -.25em;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(13,110,253,.0), rgba(13,110,253,.6), rgba(13,110,253,.0));
+      transform-origin: left;
+      transform: scaleX(0);
+      border-radius: 999px;
+      animation: underlineGrow .9s ease .35s forwards;
     }
 
-    /* CTAs */
-    .cta-group{
-      display: inline-flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: center;
-      margin-top: .6rem;
-    }
-    .btn-hero{
-      font-weight: 600;
-      padding: .75rem 1.15rem;
-      border-radius: var(--radius);
-      box-shadow: 0 8px 24px rgba(13,110,253,.22);
-      transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease;
-    }
-    .btn-hero:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(13,110,253,.3); }
-
-    .btn-primary-hero{
-      background: #ffffff;
-      color: var(--btn-ink);
-      border: none;
-    }
-    .btn-outline-hero{
-      background: transparent;
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,.35);
-      box-shadow: 0 8px 24px rgba(7,14,32,.25);
-    }
-    .btn-outline-hero:hover{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.55);
-    }
-
-    /* Accent glow card behind hero (subtle) */
+    /* Decorative glow behind hero */
     .hero-card{
       position: absolute;
       inset: auto 50% -60px 50%;
@@ -142,10 +134,70 @@
       pointer-events: none;
     }
 
+    /* === Animations === */
+
+    /* Shimmering gradient */
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    /* Underline grow */
+    @keyframes underlineGrow {
+      0%   { transform: scaleX(0); opacity: .0; }
+      60%  { opacity: 1; }
+      100% { transform: scaleX(1); opacity: 1; }
+    }
+
+    /* Letter pop-in (with slight 3D) */
+    .pop-seq span{
+      display: inline-block;
+      transform: translateY(12px) rotateX(30deg);
+      opacity: 0;
+      filter: blur(2px);
+      animation: popIn .7s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    @keyframes popIn{
+      0%{
+        opacity: 0;
+        transform: translateY(12px) rotateX(30deg) scale(.98);
+        filter: blur(2px);
+      }
+      60%{
+        opacity: 1;
+        transform: translateY(-2px) rotateX(0) scale(1.02);
+        filter: blur(0);
+      }
+      100%{
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+      }
+    }
+
+    /* Subtle word slide for h3 */
+    .slide-words span{
+      display: inline-block;
+      transform: translateY(8px);
+      opacity: 0;
+      animation: slideUp .6s ease-out forwards;
+    }
+    @keyframes slideUp{
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Trigger only when in view */
+    .reveal .pop-seq span{ animation-play-state: running; }
+    .reveal .slide-words span{ animation-play-state: running; }
+
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .btn-hero{ transition: none; }
-      .btn-hero:hover{ transform:none; }
+      .name-highlight{ animation: none; }
+      .name-highlight::after{ animation: none; transform: scaleX(1); }
+      .pop-seq span, .slide-words span{
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+      }
     }
 
     footer{
@@ -179,14 +231,19 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <div class="container">
-      <h1 class="mb-2">Hello!</h1>
-      <h2 class="mb-3">My name is <span class="name-highlight">Ethan Griesman</span></h2>
-      <h3 class="mb-4">Welcome to my portfolio.</h3>
+    <div class="container" id="hero-anim">
+      <!-- h1 & h3 will be split into letters, staggered -->
+      <h1 class="mb-2 pop-target">Hello!</h1>
 
+      <!-- Name line: animated gradient + underline -->
+      <h2 class="mb-3">
+        My name is <span class="name-highlight">Ethan Griesman</span>
+      </h2>
+
+      <!-- h3 will slide word-by-word -->
+      <h3 class="mb-4 slide-target">Welcome to my portfolio.</h3>
     </div>
 
-    <!-- decorative glow -->
     <div class="hero-card" aria-hidden="true"></div>
   </section>
 </main>
@@ -199,8 +256,65 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="scripts.js" defer></script>
+
+<script>
+  // Helper: wrap each letter in a span with incremental delays
+  function splitLetters(el, baseDelay = 0, step = 28) {
+    const text = el.textContent;
+    el.textContent = '';
+    const frag = document.createDocumentFragment();
+    let delay = baseDelay;
+    for (const ch of text) {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.style.animationDelay = (delay/1000) + 's';
+      frag.appendChild(span);
+      delay += (ch.trim() ? step : step/2); // smaller step for spaces
+    }
+    el.classList.add('pop-seq');
+    el.appendChild(frag);
+  }
+
+  // Helper: wrap each word for slide-up with incremental delays
+  function splitWords(el, baseDelay = 100, step = 70) {
+    const words = el.textContent.split(' ');
+    el.textContent = '';
+    const frag = document.createDocumentFragment();
+    words.forEach((w, i) => {
+      const span = document.createElement('span');
+      span.textContent = (i ? ' ' : '') + w;
+      span.style.animationDelay = ((baseDelay + i*step)/1000) + 's';
+      frag.appendChild(span);
+    });
+    el.classList.add('slide-words');
+    el.appendChild(frag);
+  }
+
+  // Prepare elements
+  const h1 = document.querySelector('.pop-target');
+  const h3 = document.querySelector('.slide-target');
+  if (h1) splitLetters(h1, 0, 32);
+  if (h3) splitWords(h3, 150, 80);
+
+  // Reveal on view
+  const hero = document.getElementById('hero-anim');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReduced && hero) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          hero.classList.add('reveal');
+          io.disconnect();
+        }
+      });
+    }, { threshold: .4 });
+    io.observe(hero);
+  } else {
+    // No animation / reduced motion: show immediately
+    hero && hero.classList.add('reveal');
+  }
+</script>
+
 </body>
 </html>
-
-
