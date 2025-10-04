@@ -78,18 +78,114 @@
     }
     @media (prefers-reduced-motion: reduce){ .pulse{ animation:none; } }
 
-    /* Icon scroller */
-    #icons-container{ position:relative; width:100%; height:150px; overflow:hidden; margin: 14px 0 26px; }
-    #icons-bar{
-      display:flex; align-items:center; white-space:nowrap;
-      animation: moveLeft 40s linear infinite;
+    /* === Upgraded Icon Scroller === */
+    #icons-container{
+      position:relative;
+      width:100%;
+      height:168px;
+      overflow:hidden;
+      margin:14px 0 26px;
+      /* Edge fade with mask */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
     }
-    #icons-bar:hover{ animation-play-state: paused; }
-    @keyframes moveLeft{ 0%{ transform:translateX(100%);} 100%{ transform:translateX(-100%);} }
 
-    .icon-item{ display:inline-flex; flex-direction:column; align-items:center; margin:0 28px; }
-    .icon-item img{ height:56px; display:block; }
-    .icon-name{ margin-top:6px; font-size:.9rem; color:#e0e6f5; opacity:.9; }
+    .marquee-track{
+      position:absolute;
+      left:0;
+      display:flex;
+      width:max-content;
+      white-space:nowrap;
+      gap:42px;
+      will-change: transform;
+    }
+
+    /* Two rows for depth */
+    .marquee-row-1{
+      top:14px;
+      animation: scroll-left var(--speed-1, 26s) linear infinite;
+    }
+    .marquee-row-2{
+      bottom:14px;
+      animation: scroll-right var(--speed-2, 34s) linear infinite;
+      opacity: .95;
+      transform: translateZ(0); /* promote layer */
+    }
+
+    /* Pause on hover/focus for accessibility */
+    #icons-container:hover .marquee-track,
+    #icons-container:focus-within .marquee-track{
+      animation-play-state: paused;
+    }
+
+    /* Individual icon tile */
+    .icon-item{
+      display:inline-flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:112px;
+      height:92px;
+      border-radius:14px;
+      background: rgba(255,255,255,.04);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease, filter .25s ease;
+      will-change: transform;
+      perspective: 800px;
+      backdrop-filter: blur(2px);
+    }
+    .icon-item img{
+      height:48px; display:block;
+      filter: grayscale(22%) brightness(1.05) contrast(1.05);
+      transform: translateZ(0);
+      transition: transform .25s ease, filter .25s ease;
+    }
+    .icon-name{
+      font-size:.85rem; color:#e0e6f5; opacity:.92;
+      letter-spacing:.2px;
+    }
+
+    /* Subtle vertical bob — each tile out of phase for organic motion */
+    .icon-item{
+      animation: bob 4.2s ease-in-out infinite;
+    }
+    .icon-item:nth-child(3n){ animation-delay: .3s; }
+    .icon-item:nth-child(4n){ animation-delay: .6s; }
+    .icon-item:nth-child(5n){ animation-delay: .9s; }
+
+    /* Hover “lift + tilt” and glow */
+    .icon-item:hover{
+      transform: translateY(-6px) rotateX(6deg) rotateY(-6deg);
+      background: rgba(255,255,255,.07);
+      box-shadow:
+        0 10px 24px rgba(13,110,253,.22),
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .icon-item:hover img{
+      transform: translateZ(16px) scale(1.06);
+      filter: grayscale(0%) brightness(1.12) contrast(1.08) drop-shadow(0 6px 18px rgba(13,110,253,.35));
+    }
+
+    @keyframes bob{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-3px); }
+    }
+
+    /* Scroll keyframes */
+    @keyframes scroll-left{
+      0%{ transform: translateX(0); }
+      100%{ transform: translateX(-50%); }
+    }
+    @keyframes scroll-right{
+      0%{ transform: translateX(-50%); }
+      100%{ transform: translateX(0); }
+    }
+
+    /* Reduced motion: disable animations but keep layout */
+    @media (prefers-reduced-motion: reduce){
+      .marquee-track, .icon-item{ animation: none !important; }
+    }
 
     /* --- Premium ABOUT panel --- */
     .about-panel{
@@ -190,19 +286,140 @@
   <section id="about">
     <div class="container">
 
-      <!-- Icons scroller -->
+      <!-- Icons scroller (UPGRADED) -->
       <div id="icons-container" aria-label="Technology icons marquee">
-        <div id="icons-bar">
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span></div>
-          <div class="icon-item"><img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span></div>
+        <!-- Row 1 (left) -->
+        <div class="marquee-track marquee-row-1" style="--speed-1: 26s;">
+          <!-- Repeat group twice for seamless loop -->
+          <div class="icon-item" aria-label="Python">
+            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
+          </div>
+          <div class="icon-item" aria-label="Java">
+            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
+          </div>
+          <div class="icon-item" aria-label="C">
+            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
+          </div>
+          <div class="icon-item" aria-label="HTML">
+            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
+          </div>
+          <div class="icon-item" aria-label="CSS">
+            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
+          </div>
+          <div class="icon-item" aria-label="JavaScript">
+            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
+          </div>
+          <div class="icon-item" aria-label="Figma">
+            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
+          </div>
+          <div class="icon-item" aria-label="Arduino">
+            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
+          </div>
+          <div class="icon-item" aria-label="MySQL">
+            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
+          </div>
+          <div class="icon-item" aria-label="Android Studio">
+            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
+          </div>
+
+          <!-- Duplicate for seamlessness -->
+          <div class="icon-item" aria-label="Python">
+            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
+          </div>
+          <div class="icon-item" aria-label="Java">
+            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
+          </div>
+          <div class="icon-item" aria-label="C">
+            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
+          </div>
+          <div class="icon-item" aria-label="HTML">
+            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
+          </div>
+          <div class="icon-item" aria-label="CSS">
+            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
+          </div>
+          <div class="icon-item" aria-label="JavaScript">
+            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
+          </div>
+          <div class="icon-item" aria-label="Figma">
+            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
+          </div>
+          <div class="icon-item" aria-label="Arduino">
+            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
+          </div>
+          <div class="icon-item" aria-label="MySQL">
+            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
+          </div>
+          <div class="icon-item" aria-label="Android Studio">
+            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
+          </div>
+        </div>
+
+        <!-- Row 2 (right) -->
+        <div class="marquee-track marquee-row-2" style="--speed-2: 34s;">
+          <!-- Repeat group twice for seamless loop -->
+          <div class="icon-item" aria-label="Python">
+            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
+          </div>
+          <div class="icon-item" aria-label="Java">
+            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
+          </div>
+          <div class="icon-item" aria-label="C">
+            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
+          </div>
+          <div class="icon-item" aria-label="HTML">
+            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
+          </div>
+          <div class="icon-item" aria-label="CSS">
+            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
+          </div>
+          <div class="icon-item" aria-label="JavaScript">
+            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
+          </div>
+          <div class="icon-item" aria-label="Figma">
+            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
+          </div>
+          <div class="icon-item" aria-label="Arduino">
+            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
+          </div>
+          <div class="icon-item" aria-label="MySQL">
+            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
+          </div>
+          <div class="icon-item" aria-label="Android Studio">
+            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
+          </div>
+
+          <!-- Duplicate for seamlessness -->
+          <div class="icon-item" aria-label="Python">
+            <img src="https://skillicons.dev/icons?i=py" alt="Python"><span class="icon-name">Python</span>
+          </div>
+          <div class="icon-item" aria-label="Java">
+            <img src="https://skillicons.dev/icons?i=java" alt="Java"><span class="icon-name">Java</span>
+          </div>
+          <div class="icon-item" aria-label="C">
+            <img src="https://skillicons.dev/icons?i=c" alt="C"><span class="icon-name">C</span>
+          </div>
+          <div class="icon-item" aria-label="HTML">
+            <img src="https://skillicons.dev/icons?i=html" alt="HTML"><span class="icon-name">HTML</span>
+          </div>
+          <div class="icon-item" aria-label="CSS">
+            <img src="https://skillicons.dev/icons?i=css" alt="CSS"><span class="icon-name">CSS</span>
+          </div>
+          <div class="icon-item" aria-label="JavaScript">
+            <img src="https://skillicons.dev/icons?i=js" alt="JavaScript"><span class="icon-name">JavaScript</span>
+          </div>
+          <div class="icon-item" aria-label="Figma">
+            <img src="https://skillicons.dev/icons?i=figma" alt="Figma"><span class="icon-name">Figma</span>
+          </div>
+          <div class="icon-item" aria-label="Arduino">
+            <img src="https://skillicons.dev/icons?i=arduino" alt="Arduino"><span class="icon-name">Arduino</span>
+          </div>
+          <div class="icon-item" aria-label="MySQL">
+            <img src="https://skillicons.dev/icons?i=mysql" alt="MySQL"><span class="icon-name">MySQL</span>
+          </div>
+          <div class="icon-item" aria-label="Android Studio">
+            <img src="https://skillicons.dev/icons?i=androidstudio" alt="Android Studio"><span class="icon-name">Android Studio</span>
+          </div>
         </div>
       </div>
 
@@ -265,18 +482,18 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Optional: randomize speeds slightly each load for organic feel -->
+<script>
+  (function(){
+    const row1 = document.querySelector('.marquee-row-1');
+    const row2 = document.querySelector('.marquee-row-2');
+    if (!row1 || !row2) return;
+    const r = (min,max)=> (Math.random()*(max-min)+min).toFixed(2) + 's';
+    row1.style.setProperty('--speed-1', r(24,30));
+    row2.style.setProperty('--speed-2', r(31,38));
+  })();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
