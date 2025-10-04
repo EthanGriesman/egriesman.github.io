@@ -19,14 +19,7 @@
       --ink: #e8eef8;
       --ink-muted: #c0cae6;
 
-      /* Name palette */
-      --navy: #00247e;        /* base/navy tone */
-      --royal1: #1a66ff;      /* gradient start */
-      --royal2: #4aa3ff;      /* gradient end */
-      --rim: #bfe0ff;         /* top rim light */
-      --deep: #0a193d;        /* dark stroke */
-
-      /* 3D stack */
+      /* neutral depth tones */
       --depth1: #09132b;
       --depth2: #081127;
       --depth3: #070f23;
@@ -34,7 +27,7 @@
       --caret: rgba(255,255,255,.9);
     }
 
-    /* ===== Layout: full-height, footer at bottom, no extra gap ===== */
+    /* ===== Layout ===== */
     html, body { height: 100%; }
     body{
       display: flex;
@@ -163,66 +156,25 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== PRELUDE makes the name pop more ===== */
+    /* ===== Prelude ===== */
     .prelude{
       opacity: .9;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
-    /* ===== Textured, glossy name ===== */
+    /* ===== NAME: pure white, clean 3D, no gloss, no blue glow ===== */
     .name-highlight{
-      position: relative;
+      color: #ffffff;               /* <-- white */
+      text-shadow:
+        0 1px 0 var(--depth1),
+        0 2px 0 var(--depth1),
+        0 3px 0 var(--depth2),
+        0 5px 10px rgba(0,0,0,.45); /* soft lift */
       font-weight: 900;
       letter-spacing: .3px;
-      /* Outline via stacked shadows for crispness on dark bg */
-      text-shadow:
-        0 1px 0 var(--deep),
-        0 2px 0 var(--deep),
-        0 3px 0 rgba(0,0,0,.7),
-        0 0 18px rgba(30,120,255,.25),
-        0 10px 22px rgba(0,0,0,.45);
-
-      /* Gradient fill + sparkle texture clipped to text */
-      background-image:
-        /* subtle sparkles */
-        radial-gradient(2px 2px at 12% 28%, rgba(255,255,255,.75) 0%, transparent 60%),
-        radial-gradient(1.8px 1.8px at 62% 68%, rgba(255,255,255,.6) 0%, transparent 60%),
-        radial-gradient(1.6px 1.6px at 34% 52%, rgba(255,255,255,.7) 0%, transparent 60%),
-        radial-gradient(1.8px 1.8px at 82% 22%, rgba(255,255,255,.55) 0%, transparent 60%),
-        /* brushed/diagonal sheen */
-        repeating-linear-gradient( 25deg, rgba(255,255,255,.12) 0 6px, rgba(255,255,255,0) 6px 18px),
-        /* main royal gradient */
-        linear-gradient(180deg, var(--royal2) 0%, var(--royal1) 50%, #0b3da8 100%);
-      background-size:
-        auto, auto, auto, auto,
-        280% 280%,
-        100% 100%;
-      background-position:
-        0 0, 0 0, 0 0, 0 0,
-        0% 0%,
-        0 0;
-
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-
-      /* soft rim light on top edge */
       text-decoration: none;
     }
-
-    /* animate the "brushed" layer once for a glossy pass */
-    .name-highlight.sheen::after{
-      content: "";
-      position: absolute; inset: -4px -6px;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 25%, transparent 55%);
-      mix-blend-mode: screen;
-      transform: translateX(-100%);
-      animation: sheenPass 1.9s ease-out 1 1.4s forwards;
-      pointer-events: none;
-    }
-    @keyframes sheenPass{ to { transform: translateX(100%); } }
 
     /* Per-letter ripple jump (kept) */
     .jump-letter{
@@ -252,33 +204,20 @@
       100% { transform: translateY(0); }
     }
 
-    /* ===== Footer with BLUE GLOW at its TOP ===== */
+    /* ===== Footer (blue glow removed) ===== */
     footer{
-      position: relative;
       background:#070d1f;
       color:#b7c3d9;
       text-align:center;
       padding: 18px 0 20px;
       margin-top: 0;
-      overflow: visible;
-    }
-    footer::before{
-      /* blue glow cap */
-      content:"";
-      position:absolute;
-      top:-22px; left:0; right:0; height:22px;
-      background:
-        radial-gradient(180% 120% at 50% 0, rgba(13,110,253,.45), rgba(13,110,253,.18) 40%, transparent 70%);
-      pointer-events:none;
-      filter: blur(4px);
     }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .typewriter { border-right: none !important; }
       .typing, .flicker, .line-in,
-      .welcome-line .word > span, .jump-letter,
-      .name-highlight.sheen::after { animation: none !important; }
+      .welcome-line .word > span, .jump-letter { animation: none !important; }
     }
   </style>
 </head>
@@ -311,11 +250,11 @@
       <!-- 1) Hello! -->
       <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
 
-      <!-- 2) My name is [Name] (better visual hierarchy) -->
+      <!-- 2) My name is [Name] -->
       <h2 class="mb-3" id="name-line">
         <span class="prelude">My name is</span>
         &nbsp;
-        <span class="name-highlight sheen" id="name-animated">Ethan Griesman</span>
+        <span class="name-highlight" id="name-animated">Ethan Griesman</span>
       </h2>
 
       <!-- 3) Welcome — always visible -->
@@ -389,7 +328,7 @@
       helloH1.classList.add('flicker');
     }
 
-    /** Name line with per-letter jump (texture applied to each letter) **/
+    /** Name line with per-letter jump (now inherits pure white color) **/
     function runNameLine(){
       nameLine.classList.add('line-in');
       const text = nameSpan.textContent;
@@ -402,13 +341,6 @@
         const s = document.createElement('span');
         s.className = 'jump-letter';
         s.textContent = ch;
-        // Copy the textured fill styles to each letter via CSS inheritance
-        s.style.backgroundImage = getComputedStyle(nameSpan).backgroundImage;
-        s.style.backgroundSize  = getComputedStyle(nameSpan).backgroundSize;
-        s.style.backgroundClip  = 'text';
-        s.style.webkitBackgroundClip = 'text';
-        s.style.color = 'transparent';
-        s.style.webkitTextFillColor = 'transparent';
 
         if (!prefersReduced){
           const delay = winStart + Math.random() * (winEnd - winStart);
@@ -543,7 +475,14 @@
     }
 
     function boot(){
-      resizeCanvas();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      canvas.style.width = vw + 'px';
+      canvas.style.height = vh + 'px';
+      canvas.width  = Math.floor(vw * dpr);
+      canvas.height = Math.floor(vh * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       makeGalaxy();
       draw();
     }
