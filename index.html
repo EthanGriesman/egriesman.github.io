@@ -9,8 +9,8 @@
   <!-- Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet" />
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
@@ -19,7 +19,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0a0f1f"/>
 
-  <!-- Your site-wide CSS (kept) -->
+  <!-- Site-wide CSS -->
   <link href="styles.css" rel="stylesheet" />
 
   <style>
@@ -28,12 +28,17 @@
       --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
       --ink: #e8eef8;
       --ink-muted: #b7c3d9;
-      --accent: #0d6efd; /* matches Experience page */
+      --accent: #0d6efd;
       --btn-ink: #0e1528;
       --ring: rgba(13,110,253,.22);
       --radius: 16px;
       --shadow-hero: 0 20px 60px rgba(7,14,32,.35);
       --container: 1040px;
+
+      /* Animation palette */
+      --blue: #1ea7ff;
+      --blue-glow: rgba(30,167,255,.28);
+      --caret: rgba(255,255,255,.9);
     }
 
     html, body { height: 100%; }
@@ -48,7 +53,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar (same vibe as experience page) */
+    /* Navbar */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -70,63 +75,37 @@
       overflow: hidden;
     }
 
+    /* Headings use display font for more presence */
+    .hero h1, .hero h2, .hero h3{
+      font-family: 'Space Grotesk', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      letter-spacing: .2px;
+      margin: 0;
+    }
+
     .hero h1{
       font-weight: 800;
-      letter-spacing: .4px;
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      margin: 0 0 .25rem;
+      font-size: clamp(2.6rem, 7vw, 4.25rem);
       text-shadow: 0 6px 26px rgba(13,110,253,.25);
+      line-height: 1.05;
+      min-height: 1.2em; /* avoids layout shift during typing */
     }
     .hero h2{
-      font-weight: 700;
-      font-size: clamp(1.2rem, 3.5vw, 2rem);
-      margin: .35rem 0 1rem;
-      color: #dbe6ff;
+      font-weight: 800;
+      font-size: clamp(1.35rem, 4.2vw, 2.2rem);
+      margin-top: .8rem;
+      opacity: 0;
+      transform: translateY(18px);
     }
     .hero h3{
       font-weight: 600;
-      font-size: clamp(1rem, 2.7vw, 1.25rem);
+      font-size: clamp(1.05rem, 2.8vw, 1.3rem);
       color: var(--ink-muted);
-      margin: 0 0 1.5rem;
+      margin-top: 1rem;
+      opacity: 0;
+      transform: translateY(12px);
     }
 
-    /* Name highlight baseline */
-    .name-highlight{
-      text-decoration: none;
-    }
-
-    /* === Jump animation styling (added) === */
-
-    /* Bright blue name + optional gentle glow */
-    .name-highlight {
-      color: #1ea7ff;
-      font-weight: 800;
-      text-shadow: 0 0 18px rgba(30,167,255,.18);
-    }
-
-    /* Each letter becomes inline-block for animation */
-    .jump-letter {
-      display: inline-block;
-      will-change: transform, opacity;
-    }
-
-    /* One-time jump animation */
-    @keyframes jumpOnce {
-      0%   { transform: translateY(0); }
-      30%  { transform: translateY(-12px); }  /* jump up */
-      60%  { transform: translateY(3px); }    /* settle */
-      100% { transform: translateY(0); }      /* stabilize */
-    }
-
-    /* Reduced-motion users: no animation */
-    @media (prefers-reduced-motion: reduce) {
-      .jump-letter {
-        animation: none !important;
-        transform: none !important;
-      }
-    }
-
-    /* Accent glow card behind hero (subtle) */
+    /* Decorative glow */
     .hero-card{
       position: absolute;
       inset: auto 50% -60px 50%;
@@ -138,12 +117,86 @@
       pointer-events: none;
     }
 
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .btn-hero{ transition: none; }
-      .btn-hero:hover{ transform:none; }
+    /* === COMPLEX ANIMATIONS === */
+
+    /* 1) Typewriter + caret + neon flicker for h1 */
+    .typewriter{
+      display: inline-block;
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid var(--caret);
+    }
+    @keyframes caretBlink {
+      0%, 49% { border-right-color: var(--caret); }
+      50%, 100% { border-right-color: transparent; }
+    }
+    .typewriter.typing { animation: caretBlink .9s step-end infinite; }
+
+    /* Neon flicker after typing finishes */
+    @keyframes flicker {
+      0%   { text-shadow: 0 0 0 transparent; }
+      10%  { text-shadow: 0 0 18px rgba(255,255,255,.3); }
+      13%  { text-shadow: 0 0 0 transparent; }
+      18%  { text-shadow: 0 0 14px rgba(255,255,255,.25); }
+      22%  { text-shadow: 0 0 0 transparent; }
+      30%,100% { text-shadow: 0 0 22px rgba(13,110,253,.35); }
+    }
+    .flicker { animation: flicker 1.4s ease-out 1 both; }
+
+    /* 2) Slide-in for "My name is" container */
+    .line-in { animation: lineIn .7s cubic-bezier(.2,.7,.2,1) .15s both; }
+    @keyframes lineIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Name styling (bright blue + glow) */
+    .name-highlight{
+      color: var(--blue);
+      text-shadow: 0 0 16px var(--blue-glow);
+      font-weight: 800;
+      text-decoration: none;
+      position: relative;
+    }
+
+    /* Per-letter jump (elastic-ish) */
+    .jump-letter{
+      display: inline-block;
+      will-change: transform;
+      transform-origin: bottom center;
+      animation: jumpElastic 700ms cubic-bezier(.2,.7,.2,1) 1 both;
+    }
+    @keyframes jumpElastic {
+      0%   { transform: translateY(0) scale(1); }
+      30%  { transform: translateY(-18px) scale(1.03); }
+      60%  { transform: translateY(6px)  scale(.995); }
+      80%  { transform: translateY(-4px) scale(1.01); }
+      100% { transform: translateY(0)    scale(1); }
+    }
+
+    /* 3) Word-by-word wave for h3 (one pass) */
+    .wave span{
+      display: inline-block;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: waveUp 850ms cubic-bezier(.2,.8,.2,1) 1 both;
+    }
+    @keyframes waveUp {
+      0%   { transform: translateY(12px); opacity: 0; filter: blur(2px); }
+      40%  { opacity: 1; filter: blur(0); }
+      60%  { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Reduced motion: show states without motion */
+    @media (prefers-reduced-motion: reduce){
+      .typewriter { border-right: none !important; }
+      .typing, .flicker, .line-in, .wave span, .jump-letter { animation: none !important; }
+      .hero h2, .hero h3 { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* Footer */
     footer{
       background:#070d1f;
       color:#b7c3d9;
@@ -175,12 +228,18 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <div class="container">
-      <h1 class="mb-2">Hello!</h1>
-      <h2 class="mb-3">
-        My name is <span class="name-highlight jump-name">Ethan Griesman</span>
+    <div class="container" id="hero-seq">
+      <!-- 1) Hello! (typewriter target) -->
+      <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
+
+      <!-- 2) My name is [Name] -->
+      <h2 class="mb-3" id="name-line">
+        <span class="prelude">My name is </span>
+        <span class="name-highlight" id="name-animated">Ethan Griesman</span>
       </h2>
-      <h3 class="mb-4">Welcome to my portfolio.</h3>
+
+      <!-- 3) Welcome to my portfolio. -->
+      <h3 class="mb-4" id="welcome-line">Welcome to my portfolio.</h3>
     </div>
 
     <!-- decorative glow -->
@@ -196,41 +255,129 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="scripts.js" defer></script>
 
-<!-- Jump animation script (added) -->
 <script>
-  (function() {
-    const el = document.querySelector('.jump-name');
-    if (!el) return;
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const text = el.textContent;
-    el.textContent = ''; // clear original
-
-    // Config: total window for jumps (ms)
-    const TOTAL_WINDOW_MS = 20000;   // 20 seconds
-    const DURATION_MS = 600;         // each jump lasts ~0.6s
-    const MAX_DELAY_MS = Math.max(0, TOTAL_WINDOW_MS - DURATION_MS - 200);
-
-    const frag = document.createDocumentFragment();
-    for (const ch of text) {
-      if (ch === ' ') {
-        frag.appendChild(document.createTextNode(' '));
-        continue;
-      }
-      const span = document.createElement('span');
-      span.className = 'jump-letter';
-      span.textContent = ch;
-
-      if (!prefersReduced) {
-        const randomDelay = Math.random() * MAX_DELAY_MS; // random start within window
-        span.style.animation = `jumpOnce ${DURATION_MS}ms cubic-bezier(.2,.7,.2,1) ${randomDelay}ms 1 both`;
-      }
-
-      frag.appendChild(span);
+  // ===== CONFIG =====
+  const CONFIG = {
+    helloText: 'Hello!',
+    typingSpeedMs: 85,        // per character
+    helloHoldAfterTyping: 250, // pause before flicker
+    nameJumpWindowMs: [2000, 5000], // randomize each letter's start within this window
+    nameJumpDurationMs: 700,        // matches CSS keyframes duration
+    welcomeWordDelayMs: 90,         // stagger between words
+    revealDelays: {                 // sequencing between sections
+      nameLineAfterHelloMs: 150,
+      welcomeAfterNameMs: 120
     }
-    el.appendChild(frag);
+  };
+
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Elements
+    const helloSpan = document.getElementById('hello-typing');
+    const helloH1   = document.getElementById('hello');
+    const nameLine  = document.getElementById('name-line');
+    const nameSpan  = document.getElementById('name-animated');
+    const welcome   = document.getElementById('welcome-line');
+
+    // Helpers
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    /** Typewriter effect for "Hello!" **/
+    async function runHello(){
+      const text = CONFIG.helloText;
+      if (prefersReduced) {
+        helloSpan.textContent = text;
+        helloSpan.classList.remove('typing');
+        helloH1.classList.add('flicker'); // just apply final look
+        return;
+      }
+      helloSpan.textContent = '';
+      helloSpan.classList.add('typing');
+      for (let i = 0; i < text.length; i++){
+        helloSpan.textContent += text[i];
+        await sleep(CONFIG.typingSpeedMs);
+      }
+      helloSpan.classList.remove('typing'); // stop caret blinking
+      await sleep(CONFIG.helloHoldAfterTyping);
+      helloH1.classList.add('flicker');
+    }
+
+    /** Slide in "My name is" and animate per-letter jumps on the name **/
+    function runNameLine(){
+      // Slide the whole line in
+      nameLine.style.animation = 'lineIn .7s cubic-bezier(.2,.7,.2,1) .15s both';
+
+      // Split the name into per-letter spans with randomized delays
+      const text = nameSpan.textContent;
+      nameSpan.textContent = '';
+      const frag = document.createDocumentFragment();
+      const [winStart, winEnd] = CONFIG.nameJumpWindowMs;
+
+      for (const ch of text){
+        if (ch === ' '){
+          frag.appendChild(document.createTextNode(' '));
+          continue;
+        }
+        const s = document.createElement('span');
+        s.className = 'jump-letter';
+        s.textContent = ch;
+
+        if (!prefersReduced){
+          const delay = winStart + Math.random() * (winEnd - winStart);
+          s.style.animationDelay = `${delay}ms`;
+          s.style.animationDuration = `${CONFIG.nameJumpDurationMs}ms`;
+        } else {
+          s.style.animation = 'none';
+        }
+        frag.appendChild(s);
+      }
+      nameSpan.appendChild(frag);
+    }
+
+    /** Word-by-word wave for the welcome line **/
+    function runWelcome(){
+      const words = welcome.textContent.split(' ');
+      welcome.textContent = '';
+      const frag = document.createDocumentFragment();
+
+      words.forEach((w, i) => {
+        const span = document.createElement('span');
+        span.textContent = (i ? ' ' : '') + w;
+        span.className = 'wave';
+        // inner span is animated to avoid spacing quirks
+        const inner = document.createElement('span');
+        inner.textContent = w;
+        if (!prefersReduced){
+          inner.style.animationDelay = `${i * CONFIG.welcomeWordDelayMs}ms`;
+        } else {
+          inner.style.animation = 'none';
+        }
+        span.textContent = (i ? ' ' : ''); // keep space outside
+        span.appendChild(inner);
+        frag.appendChild(span);
+      });
+
+      welcome.appendChild(frag);
+      // reveal container (remove initial opacity/transform)
+      welcome.style.opacity = 1;
+      welcome.style.transform = 'none';
+    }
+
+    // Master sequence
+    (async function(){
+      // 1) Hello!
+      await runHello();
+
+      // 2) My name is …
+      await sleep(CONFIG.revealDelays.nameLineAfterHelloMs);
+      runNameLine();
+
+      // 3) Welcome …
+      await sleep(CONFIG.revealDelays.welcomeAfterNameMs);
+      runWelcome();
+    })();
   })();
 </script>
 
