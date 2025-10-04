@@ -9,8 +9,9 @@
   <!-- Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
 
-  <!-- Fonts: Sora (display) + Inter (body) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Fonts: Clash Display (headings) + Inter (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/clash-display" rel="stylesheet">
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
@@ -25,18 +26,19 @@
       --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
       --card: #ffffff;
       --ink: #0e1528;
-      --muted: #677089;
+      --muted: #64708b;
       --accent: #0d6efd;
       --accent-2: #7aa3ff;
       --ring: rgba(13,110,253,.18);
-      --radius: 18px;
-      --shadow-1: 0 10px 30px rgba(7, 14, 32, 0.10);
-      --shadow-2: 0 18px 55px rgba(7, 14, 32, 0.14);
+      --radius: 20px;
+      --shadow-1: 0 10px 30px rgba(7,14,32,.10);
+      --shadow-2: 0 18px 55px rgba(7,14,32,.14);
       --container: 1040px;
-      --chip-bg: linear-gradient(135deg, rgba(13,110,253,.18), rgba(122,163,255,.28));
+
+      --heading-grad: linear-gradient(90deg,#cfe0ff 0%,#86aaff 25%,#52a5ff 50%,#a5b8ff 75%,#e0e7ff 100%);
+      --ticket-grad: linear-gradient(135deg, rgba(13,110,253,.16), rgba(122,163,255,.28));
     }
 
-    /* Base */
     html,body{height:100%;}
     body{
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -46,6 +48,31 @@
         radial-gradient(1000px 480px at 82% -10%, rgba(13,110,253,.14), transparent 60%),
         var(--bg-grad);
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Floating orbs behind timeline (soft parallax) */
+    .orbs{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb{
+      position:absolute; border-radius:999px; filter: blur(60px); opacity:.28;
+      mix-blend-mode: screen;
+      will-change: transform;
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+    .orb.one{ width:320px; height:320px; background:#215ef7; top:10%; left:5%; }
+    .orb.two{ width:380px; height:380px; background:#7aa3ff; top:65%; left:70%; animation-delay: 1.2s; }
+    .orb.three{ width:260px; height:260px; background:#2c82ff; top:30%; left:80%; animation-delay: 2.1s; }
+    @keyframes drift{
+      0%{ transform: translate3d(0,0,0) scale(1); }
+      100%{ transform: translate3d(20px,-24px,0) scale(1.05); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .orb{ animation: none; }
     }
 
     /* Nav */
@@ -53,151 +80,218 @@
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
       backdrop-filter: saturate(1.2) blur(4px);
+      position: sticky; top:0; z-index: 10;
     }
-    .navbar .navbar-brand{ color:#e8eef8; font-weight:600; letter-spacing:.2px; }
+    .navbar .navbar-brand{ color:#e8eef8; font-weight:600; letter-spacing:.2px; font-family:"Clash Display", system-ui, sans-serif; }
     .navbar-dark .navbar-nav .nav-link{ color:#c9d3e7; }
     .navbar-dark .navbar-nav .nav-link:hover,
     .navbar-dark .navbar-nav .nav-link.active{ color:#ffffff; }
 
-    .page{ padding-top:84px; }
+    .page{ padding-top:84px; position: relative; z-index: 1; }
     .container{ max-width: var(--container); }
 
     /* Header */
     .hero{
       text-align:center;
-      padding:64px 0 36px;
+      padding:72px 0 42px;
       color:#e8eef8;
     }
     .hero h1{
-      margin:0 0 .3rem;
-      font-family: 'Sora', system-ui, sans-serif;
+      margin:0 0 .35rem;
+      font-family: "Clash Display", system-ui, sans-serif;
       font-weight:800;
-      letter-spacing:.2px;
-      font-size: clamp(2.1rem, 4vw, 3.15rem);
-      text-shadow: 0 10px 30px rgba(13,110,253,.25);
+      letter-spacing:.1px;
+      font-size: clamp(2.2rem, 4.2vw, 3.3rem);
+      background: var(--heading-grad);
+      -webkit-background-clip:text;
+              background-clip:text;
+      color: transparent;
+      animation: hue 10s linear infinite;
     }
-    .hero p{ margin:0; color:#b7c3d9; }
+    .sparkles{
+      font-size:.95rem; color:#b7c3d9; display:inline-flex; align-items:center; gap:.5ch;
+    }
+    .sparkles::before, .sparkles::after{
+      content:"✦"; opacity:.6; animation: twinkle 2.6s ease-in-out infinite;
+    }
+    .sparkles::after{ animation-delay: 1.3s; }
+    @keyframes hue { 0%{ filter:hue-rotate(0deg);} 100%{ filter:hue-rotate(12deg);} }
+    @keyframes twinkle{ 0%,100%{opacity:.4} 50%{opacity:1} }
 
-    /* Timeline spine */
+    /* Timeline container with alternating layout */
     .timeline{
       position:relative;
-      margin: 18px 0 80px;
-      padding-left: 44px;
+      margin: 18px 0 100px;
+      display: grid;
+      grid-template-columns: 1fr minmax(0,780px) 1fr;
+      gap: 18px;
     }
-    .timeline::before{
-      content:"";
-      position:absolute;
-      left:20px; top:0; bottom:0;
-      width:3px;
-      background: linear-gradient(180deg, rgba(13,110,253,.12), rgba(13,110,253,.55) 25%, rgba(13,110,253,.12) 75%);
-      border-radius:2px;
-      box-shadow:
-        0 0 18px rgba(122,163,255,.25),
-        inset 0 0 6px rgba(13,110,253,.35);
+    .spine{
+      grid-column: 2;
+      position: relative;
+      width:4px; margin: 0 auto;
+      background: linear-gradient(180deg, rgba(13,110,253,.18), rgba(13,110,253,.55) 40%, rgba(13,110,253,.18));
+      border-radius:4px;
+      box-shadow: 0 0 22px rgba(122,163,255,.45), inset 0 0 6px rgba(13,110,253,.35);
     }
 
-    /* Node */
-    .timeline-item{ position:relative; margin-bottom:28px; }
-    .timeline-item::before{
+    /* Each item slots left/right of the spine on large screens */
+    .timeline-item{
+      display: contents; /* let children define columns */
+    }
+    .node{
+      grid-column: 2;
+      display:grid; place-items:center;
+      position: relative;
+    }
+    .node::before{
       content:"";
-      position:absolute;
-      left:12px; top:42px;
-      width:16px; height:16px;
+      width:18px; height:18px; border-radius:50%;
       background: radial-gradient(circle at 35% 35%, #ffffff 0 30%, var(--accent) 30% 100%);
-      border-radius:50%;
-      box-shadow:
-        0 0 0 6px rgba(13,110,253,.15),
-        0 0 18px rgba(122,163,255,.55);
-      animation: nodePulse 2.4s ease-in-out infinite;
+      box-shadow: 0 0 0 8px rgba(13,110,253,.15), 0 0 18px rgba(122,163,255,.7);
+      animation: nodePulse 2.6s ease-in-out infinite;
     }
     @keyframes nodePulse {
-      0%,100% { transform: scale(1); box-shadow: 0 0 0 6px rgba(13,110,253,.15), 0 0 18px rgba(122,163,255,.55); }
-      50%     { transform: scale(1.08); box-shadow: 0 0 0 8px rgba(13,110,253,.18), 0 0 26px rgba(122,163,255,.75); }
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 8px rgba(13,110,253,.15), 0 0 18px rgba(122,163,255,.7); }
+      50%     { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(13,110,253,.18), 0 0 30px rgba(122,163,255,.9); }
     }
 
-    /* Card */
+    /* Card base */
     .card-exp{
-      background:var(--card);
+      background: var(--card);
       border-radius: var(--radius);
       box-shadow: var(--shadow-1);
-      padding: 24px 26px;
-      display:flex; align-items:center; gap:22px;
-      transition: transform .18s ease, box-shadow .18s ease;
+      padding: 22px 24px;
+      display:flex; align-items:flex-start; gap:18px;
+      transition: transform .22s ease, box-shadow .22s ease;
       border: 1px solid rgba(7,14,32,.06);
+      position: relative;
+      isolation: isolate;
     }
     .card-exp:hover{ transform: translateY(-3px); box-shadow: var(--shadow-2); }
 
+    /* Decorative ribbon connector */
+    .card-exp::after{
+      content:"";
+      position:absolute; top:34px; width:54px; height:6px;
+      background: linear-gradient(90deg, rgba(13,110,253,.45), rgba(122,163,255,.0));
+      filter: blur(.2px);
+    }
+
+    /* Left/right placement */
+    .left  { grid-column: 1; display:flex; justify-content:flex-end; }
+    .right { grid-column: 3; display:flex; justify-content:flex-start; }
+    .left  .card-exp::after{ right:-50px; border-radius:6px 0 0 6px; }
+    .right .card-exp::after{ left:-50px;  border-radius:0 6px 6px 0; transform: scaleX(-1); }
+
     /* Logo */
     .logo-chip{
-      flex:0 0 104px; width:104px; height:104px;
-      border-radius:22px; background:#fff;
+      flex:0 0 92px; width:92px; height:92px;
+      border-radius:20px; background:#fff;
       box-shadow: 0 1px 2px rgba(4,9,20,.08), 0 0 0 10px var(--ring);
       display:grid; place-items:center; overflow:hidden;
     }
-    .logo-chip img{ width:88%; height:88%; object-fit:contain; }
+    .logo-chip img{ width:84%; height:84%; object-fit:contain; }
 
     /* Text */
-    .exp-body{ flex:1 1 auto; min-width:0; text-align:center; }
+    .exp-body{ flex:1 1 auto; min-width:0; }
     .exp-role{
-      margin:0 0 4px;
-      font-size:1.35rem;
-      font-family:'Sora', system-ui, sans-serif;
-      font-weight:700;
-      color:var(--ink);
-      letter-spacing:.2px;
+      margin:0 0 2px;
+      font-size:1.2rem;
+      font-family:"Clash Display", system-ui, sans-serif;
+      font-weight:700; letter-spacing:.2px; color:#0f1a34;
     }
     .exp-company{
       margin:0 0 10px;
-      font-weight:800;                /* ensure boldness */
+      font-weight:800;  /* BOLD company */
       color:#1a2440;
-      font-family:'Sora', system-ui, sans-serif;
+      font-family:"Clash Display", system-ui, sans-serif;
     }
 
-    /* Creative date chip */
-    .exp-date{
-      margin:0 0 12px;
-      display:flex; justify-content:center;
-    }
-    .date-pill{
-      display:inline-flex; align-items:center; gap:8px;
-      font-weight:700;
-      font-size:.95rem;
-      color:#0b1a3a;
-      background: var(--chip-bg);
-      border: 1px solid rgba(13,110,253,.25);
+    /* Date ticket */
+    .exp-date{ margin:0 0 10px; }
+    .ticket{
+      display:inline-grid; grid-auto-flow:column; align-items:center; gap:10px;
+      background: var(--ticket-grad);
+      border: 1px dashed rgba(13,110,253,.35);
+      border-radius: 14px;
       padding:8px 12px;
-      border-radius:999px;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 18px rgba(13,110,253,.12);
+      font-weight:700; color:#0b1a3a; font-size:.95rem;
+      position: relative; overflow:hidden;
     }
-    .date-pill svg{ width:16px; height:16px; flex:0 0 16px; opacity:.9; }
+    .ticket::before, .ticket::after{
+      /* perforation circles */
+      content:"";
+      position:absolute; top:50%; transform: translateY(-50%);
+      width:10px; height:10px; background: #0b1224; border-radius:50%;
+      box-shadow: 0 0 0 1px rgba(13,110,253,.35);
+    }
+    .ticket::before{ left:-5px; }
+    .ticket::after{ right:-5px; }
+    .shine{
+      position:absolute; inset:0; background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.35) 50%, transparent 60%);
+      transform: translateX(-100%);
+      animation: shine 6s ease-in-out infinite;
+    }
+    @keyframes shine{
+      0%, 65%{ transform: translateX(-120%); }
+      75%{ transform: translateX(120%); }
+      100%{ transform: translateX(120%); }
+    }
+
+    /* Tag chips */
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 8px; }
+    .tag{
+      font-size:.82rem; font-weight:600; letter-spacing:.1px;
+      color:#0d2a76; background: rgba(122,163,255,.22);
+      border:1px solid rgba(13,110,253,.28);
+      padding:4px 8px; border-radius: 999px;
+    }
 
     .exp-blurb{ margin:0; color:#263148; line-height:1.55; }
+
+    /* Expand details (pure CSS) */
+    details{ margin-top:10px; }
+    details summary{
+      cursor: pointer;
+      list-style: none;
+      color:#0d3aa6;
+      font-weight:700;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    details summary::-webkit-details-marker{ display:none; }
+    details[open] summary .chev{ transform: rotate(90deg); }
+    .chev{ transition: transform .2s ease; }
 
     /* Footer */
     footer{ background:#070d1f; color:#b7c3d9; }
 
     /* Responsive */
-    @media (max-width: 720px){
-      .timeline{ padding-left: 34px; }
-      .timeline::before{ left:16px; }
-      .timeline-item::before{ left:8px; top:26px; }
-      .card-exp{ flex-direction:column; align-items:flex-start; gap:14px; padding:20px; }
-      .exp-body{ text-align:left; }
-      .logo-chip{ width:86px; height:86px; border-radius:18px; box-shadow: 0 1px 2px rgba(4,9,20,.08), 0 0 0 8px var(--ring); }
-      .exp-date{ justify-content:flex-start; }
+    @media (max-width: 980px){
+      .timeline{ grid-template-columns: 1fr; }
+      .spine, .node{ display:none; }
+      .left, .right{ grid-column: 1; }
+      .card-exp::after{ display:none; }
     }
 
     /* Motion preference */
     @media (prefers-reduced-motion: reduce){
       .card-exp{ transition:none; }
       .card-exp:hover{ transform:none; }
-      .timeline-item::before{ animation:none; }
+      .node::before, .shine{ animation:none; }
     }
   </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<div class="orbs" aria-hidden="true">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
     <a class="navbar-brand" href="index.html">Ethan Griesman</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-label="Toggle navigation">
@@ -220,74 +314,130 @@
     <div class="container">
       <header class="hero">
         <h1>Professional Experience</h1>
-        <p>A chronological journey through my undergraduate and early professional career</p>
+        <div class="sparkles">A chronological journey through my undergraduate and early professional career</div>
       </header>
 
       <div class="timeline">
 
-        <!-- RTX Collins Aerospace -->
+        <!-- vertical spine -->
+        <div class="spine" aria-hidden="true"></div>
+
+        <!-- RTX Collins Aerospace (LEFT) -->
         <article class="timeline-item">
-          <div class="card-exp">
-            <div class="logo-chip" aria-hidden="true">
-              <img src="images/collins-aerospace.png" alt="RTX Collins Aerospace logo" loading="lazy">
-            </div>
-            <div class="exp-body">
-              <h3 class="exp-role">Systems Engineering Co-Op</h3>
-              <p class="exp-company"><strong>RTX Collins Aerospace</strong></p>
-              <p class="exp-date">
-                <span class="date-pill" title="January 2025 to August 2025">
-                  <!-- calendar icon -->
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 2v3m10-3v3M3.5 9.5h17M5 6h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                  </svg>
-                  Jan 2025 → Aug 2025
-                </span>
-              </p>
-              <p class="exp-blurb">Teams: Enterprise Range Systems, Cross Domain Solutions (CDS), Integration &amp; Range Deployment.</p>
+          <div class="node" aria-hidden="true"></div>
+          <div class="left">
+            <div class="card-exp">
+              <div class="logo-chip" aria-hidden="true">
+                <img src="images/collins-aerospace.png" alt="RTX Collins Aerospace logo" loading="lazy">
+              </div>
+              <div class="exp-body">
+                <h3 class="exp-role">Systems Engineering Co-Op</h3>
+                <p class="exp-company"><strong>RTX Collins Aerospace</strong></p>
+                <p class="exp-date">
+                  <span class="ticket" title="January 2025 to August 2025">
+                    <span>Jan ’25</span>
+                    <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Aug ’25</span>
+                    <span class="shine" aria-hidden="true"></span>
+                  </span>
+                </p>
+                <div class="tags">
+                  <span class="tag">Enterprise Range Systems</span>
+                  <span class="tag">CDS</span>
+                  <span class="tag">Integration &amp; Deployment</span>
+                </div>
+                <p class="exp-blurb">Worked across secure cross-domain workflows and range systems, supporting integration & deployment of mission-critical tooling.</p>
+                <details>
+                  <summary><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> More details</summary>
+                  <ul class="mt-2 mb-0">
+                    <li>Coordinated with multi-disciplinary stakeholders to validate interfaces and test plans.</li>
+                    <li>Documented integration steps and authored quick-start guides for field teams.</li>
+                    <li>Improved deployment reliability by tightening config checks and preflight automation.</li>
+                  </ul>
+                </details>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- Hy-Vee -->
+        <!-- Hy-Vee (RIGHT) -->
         <article class="timeline-item">
-          <div class="card-exp">
-            <div class="logo-chip" aria-hidden="true">
-              <img src="images/hy-vee.png" alt="Hy-Vee logo" loading="lazy">
-            </div>
-            <div class="exp-body">
-              <h3 class="exp-role">SAP Data Intern</h3>
-              <p class="exp-company"><strong>Hy-Vee Inc.</strong></p>
-              <p class="exp-date">
-                <span class="date-pill" title="May 2024 to August 2024">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 2v3m10-3v3M3.5 9.5h17M5 6h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                  </svg>
-                  May 2024 → Aug 2024
-                </span>
-              </p>
-              <p class="exp-blurb">Supported SAP data workflows and store operations; improved data accuracy and contributed to measurable efficiencies in inventory management.</p>
+          <div class="node" aria-hidden="true"></div>
+          <div class="right">
+            <div class="card-exp">
+              <div class="logo-chip" aria-hidden="true">
+                <img src="images/hy-vee.png" alt="Hy-Vee logo" loading="lazy">
+              </div>
+              <div class="exp-body">
+                <h3 class="exp-role">SAP Data Intern</h3>
+                <p class="exp-company"><strong>Hy-Vee Inc.</strong></p>
+                <p class="exp-date">
+                  <span class="ticket" title="May 2024 to August 2024">
+                    <span>May ’24</span>
+                    <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Aug ’24</span>
+                    <span class="shine" aria-hidden="true"></span>
+                  </span>
+                </p>
+                <div class="tags">
+                  <span class="tag">SAP</span>
+                  <span class="tag">Data Quality</span>
+                  <span class="tag">Ops Efficiency</span>
+                </div>
+                <p class="exp-blurb">Supported SAP data workflows and store operations; improved data accuracy and contributed to measurable efficiencies in inventory management.</p>
+                <details>
+                  <summary><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> More details</summary>
+                  <ul class="mt-2 mb-0">
+                    <li>Built sanity checks to catch outliers and sync issues before nightly jobs.</li>
+                    <li>Partnered with store ops to tighten feedback loops on data corrections.</li>
+                    <li>Delivered quick win dashboards to visualize shrinkage vs. replenishment lag.</li>
+                  </ul>
+                </details>
+              </div>
             </div>
           </div>
         </article>
 
-        <!-- Iowa State University -->
+        <!-- Iowa State University (LEFT) -->
         <article class="timeline-item">
-          <div class="card-exp">
-            <div class="logo-chip" aria-hidden="true">
-              <img src="images/iastate.png" alt="Iowa State University logo" loading="lazy">
-            </div>
-            <div class="exp-body">
-              <h3 class="exp-role">Undergraduate Researcher</h3>
-              <p class="exp-company"><strong>Iowa State University</strong></p>
-              <p class="exp-date">
-                <span class="date-pill" title="September 2022 to May 2024">
-                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 2v3m10-3v3M3.5 9.5h17M5 6h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                  </svg>
-                  Sept 2022 → May 2024
-                </span>
-              </p>
-              <p class="exp-blurb">Centers for Building Energy Research (CBER) &amp; ARA Wireless Living Lab. Contributed to sustainable energy and wireless communication initiatives.</p>
+          <div class="node" aria-hidden="true"></div>
+          <div class="left">
+            <div class="card-exp">
+              <div class="logo-chip" aria-hidden="true">
+                <img src="images/iastate.png" alt="Iowa State University logo" loading="lazy">
+              </div>
+              <div class="exp-body">
+                <h3 class="exp-role">Undergraduate Researcher</h3>
+                <p class="exp-company"><strong>Iowa State University</strong></p>
+                <p class="exp-date">
+                  <span class="ticket" title="September 2022 to May 2024">
+                    <span>Sept ’22</span>
+                    <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>May ’24</span>
+                    <span class="shine" aria-hidden="true"></span>
+                  </span>
+                </p>
+                <div class="tags">
+                  <span class="tag">CBER</span>
+                  <span class="tag">ARA Wireless Living Lab</span>
+                  <span class="tag">Sustainable Energy</span>
+                </div>
+                <p class="exp-blurb">Contributed to sustainable energy and wireless communication initiatives across two labs with interdisciplinary collaboration.</p>
+                <details>
+                  <summary><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> More details</summary>
+                  <ul class="mt-2 mb-0">
+                    <li>Prototyped data collection scripts and automated post-processing pipelines.</li>
+                    <li>Co-authored internal briefs summarizing trial results and next steps.</li>
+                    <li>Assisted with hardware setup and measurement repeatability testing.</li>
+                  </ul>
+                </details>
+              </div>
             </div>
           </div>
         </article>
@@ -301,10 +451,9 @@
   <p class="mb-0">&copy; 2025 Ethan Griesman. All rights reserved.</p>
 </footer>
 
-<!-- JS -->
+<!-- JS (Bootstrap deps) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
