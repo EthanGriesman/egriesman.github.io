@@ -18,16 +18,12 @@
     :root{
       --ink: #e8eef8;
       --ink-muted: #c0cae6;
-
-      /* neutral depth tones */
       --depth1: #09132b;
       --depth2: #081127;
       --depth3: #070f23;
-
       --caret: rgba(255,255,255,.9);
     }
 
-    /* ===== Layout ===== */
     html, body { height: 100%; }
     body{
       display: flex;
@@ -36,28 +32,12 @@
       margin: 0;
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--ink);
-      background: #0b1224; /* behind canvas */
+      background: #0b1224; /* fallback behind canvas */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
     main{ flex: 1; }
-
-    /* ===== Site-wide galaxy canvas (fixed behind everything) ===== */
-    #galaxyCanvas{
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
-        radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
-      filter: saturate(1.08) contrast(1.05);
-    }
-
-    /* Content above canvas */
-    .navbar, .page, footer { position: relative; z-index: 2; }
 
     /* Navbar */
     .navbar{
@@ -72,15 +52,28 @@
 
     .page{ padding-top: 84px; }
 
-    /* ===== HERO ===== */
+    /* ===== HERO (galaxy is hero-only again) ===== */
     .hero{
       position: relative;
       overflow: hidden;
       padding: clamp(64px, 12vw, 128px) 0 clamp(56px, 8vw, 96px);
       text-align: center;
       isolation: isolate;
+      background: radial-gradient(1200px 700px at 50% 30%, rgba(40,60,120,.18), transparent 65%),
+                  radial-gradient(900px 600px at 70% 80%, rgba(20,40,90,.14), transparent 70%);
     }
-    .hero .container{ max-width: 1040px; }
+    .hero .container{ max-width: 1040px; position: relative; z-index: 2; }
+
+    /* Galaxy canvas sits behind hero text only */
+    #galaxyCanvas{
+      position: absolute;
+      inset: 0;        /* fill hero */
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      filter: saturate(1.08) contrast(1.05);
+    }
 
     /* Soft glow behind text (above canvas, below text) */
     .hero-card{
@@ -95,7 +88,7 @@
       z-index: 1;
     }
 
-    /* ===== Headings (3D base) ===== */
+    /* Headings */
     .hero h1, .hero h2, .hero h3{
       font-family: 'Space Grotesk', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       letter-spacing: .2px;
@@ -109,122 +102,67 @@
         0 6px 0 var(--depth3),
         0 8px 12px rgba(0,0,0,.45);
     }
-    .hero h1{
-      font-weight: 800;
-      font-size: clamp(2.9rem, 7.2vw, 4.8rem);
-      line-height: 1.05;
-      min-height: 1.2em;
-    }
-    .hero h2{
-      font-weight: 800;
-      font-size: clamp(1.6rem, 4.8vw, 2.6rem);
-      margin-top: .9rem;
-    }
-    .hero h3{
-      font-weight: 700;
-      font-size: clamp(1.1rem, 3vw, 1.5rem);
-      color: var(--ink);
-      margin-top: 1rem;
-    }
+    .hero h1{ font-weight: 800; font-size: clamp(2.9rem, 7.2vw, 4.8rem); line-height: 1.05; min-height: 1.2em; }
+    .hero h2{ font-weight: 800; font-size: clamp(1.6rem, 4.8vw, 2.6rem); margin-top: .9rem; }
+    .hero h3{ font-weight: 700; font-size: clamp(1.1rem, 3vw, 1.5rem); color: var(--ink); margin-top: 1rem; }
 
-    /* ===== Typewriter caret + flicker ===== */
-    .typewriter{
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid var(--caret);
-    }
-    @keyframes caretBlink {
-      0%, 49% { border-right-color: var(--caret); }
-      50%, 100% { border-right-color: transparent; }
-    }
+    /* Typewriter caret + flicker */
+    .typewriter{ display: inline-block; white-space: nowrap; overflow: hidden; border-right: 2px solid var(--caret); }
+    @keyframes caretBlink { 0%,49%{border-right-color:var(--caret);} 50%,100%{border-right-color:transparent;} }
     .typewriter.typing { animation: caretBlink .9s step-end infinite; }
     @keyframes flicker {
-      0%   { text-shadow: none; }
-      10%  { text-shadow: 0 0 18px rgba(255,255,255,.3); }
-      13%  { text-shadow: none; }
-      18%  { text-shadow: 0 0 14px rgba(255,255,255,.25); }
-      22%  { text-shadow: none; }
-      30%,100% { text-shadow: 0 0 22px rgba(13,110,253,.35); }
+      0%{ text-shadow:none; } 10%{ text-shadow:0 0 18px rgba(255,255,255,.3); }
+      13%{ text-shadow:none; } 18%{ text-shadow:0 0 14px rgba(255,255,255,.25); }
+      22%{ text-shadow:none; } 30%,100%{ text-shadow:0 0 22px rgba(13,110,253,.35); }
     }
     .flicker { animation: flicker 1.4s ease-out 1 both; }
 
     /* Slide-in for "My name is" */
     .line-in { animation: lineIn .7s cubic-bezier(.2,.7,.2,1) .15s both; }
-    @keyframes lineIn {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes lineIn { from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
 
-    /* ===== Prelude ===== */
-    .prelude{
-      opacity: .9;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
+    .prelude{ opacity:.9; font-weight:700; letter-spacing:.2px; }
 
-    /* ===== NAME: pure white, clean 3D, no gloss, no blue glow ===== */
+    /* Name = white, clean lift (kept) */
     .name-highlight{
-      color: #ffffff;               /* <-- white */
+      color:#fff;
       text-shadow:
         0 1px 0 var(--depth1),
         0 2px 0 var(--depth1),
         0 3px 0 var(--depth2),
-        0 5px 10px rgba(0,0,0,.45); /* soft lift */
-      font-weight: 900;
-      letter-spacing: .3px;
-      text-decoration: none;
+        0 5px 10px rgba(0,0,0,.45);
+      font-weight:900; letter-spacing:.3px; text-decoration:none;
     }
 
-    /* Per-letter ripple jump (kept) */
-    .jump-letter{
-      display: inline-block;
-      will-change: transform;
-      transform-origin: bottom center;
-      animation: jumpRipple 780ms cubic-bezier(.2,.7,.2,1) 1 both;
-    }
-    @keyframes jumpRipple {
-      0%   { transform: translateY(0) scale(1); }
-      28%  { transform: translateY(-20px) scale(1.03); }
-      58%  { transform: translateY(6px)  scale(.995); }
-      78%  { transform: translateY(-3px) scale(1.01); }
-      100% { transform: translateY(0)    scale(1); }
+    /* Per-letter ripple jump */
+    .jump-letter{ display:inline-block; transform-origin:bottom center; animation:jumpRipple 780ms cubic-bezier(.2,.7,.2,1) 1 both; }
+    @keyframes jumpRipple{
+      0%{transform:translateY(0) scale(1);}
+      28%{transform:translateY(-20px) scale(1.03);}
+      58%{transform:translateY(6px) scale(.995);}
+      78%{transform:translateY(-3px) scale(1.01);}
+      100%{transform:translateY(0) scale(1);}
     }
 
-    /* Welcome wave with proper spacing */
+    /* Welcome wave with spacing */
     .welcome-line .word{ display:inline-block; position:relative; }
-    .welcome-line .word > span{
-      display:inline-block;
-      animation: waveUp 900ms cubic-bezier(.2,.8,.2,1) 1 both;
-    }
-    @keyframes waveUp {
-      0%   { transform: translateY(12px); opacity: 0; filter: blur(2px); }
-      40%  { opacity: 1; filter: blur(0); }
-      60%  { transform: translateY(-6px); }
-      100% { transform: translateY(0); }
+    .welcome-line .word>span{ display:inline-block; animation:waveUp 900ms cubic-bezier(.2,.8,.2,1) 1 both; }
+    @keyframes waveUp{
+      0%{ transform:translateY(12px); opacity:0; filter:blur(2px); }
+      40%{ opacity:1; filter:blur(0); }
+      60%{ transform:translateY(-6px); }
+      100%{ transform:translateY(0); }
     }
 
-    /* ===== Footer (blue glow removed) ===== */
-    footer{
-      background:#070d1f;
-      color:#b7c3d9;
-      text-align:center;
-      padding: 18px 0 20px;
-      margin-top: 0;
-    }
+    footer{ background:#070d1f; color:#b7c3d9; text-align:center; padding:18px 0 20px; margin-top:0; }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .typewriter { border-right: none !important; }
-      .typing, .flicker, .line-in,
-      .welcome-line .word > span, .jump-letter { animation: none !important; }
+      .typewriter{ border-right:none !important; }
+      .typing, .flicker, .line-in, .welcome-line .word>span, .jump-letter{ animation:none !important; }
     }
   </style>
 </head>
 <body>
-
-<!-- Site-wide galaxy -->
-<canvas id="galaxyCanvas" aria-hidden="true"></canvas>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
@@ -246,18 +184,17 @@
 
 <main class="page">
   <section id="home" class="hero">
+    <!-- earlier galaxy: hero-only rotating spiral -->
+    <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
+
     <div class="container" id="hero-seq">
-      <!-- 1) Hello! -->
       <h1 class="mb-2" id="hello"><span class="typewriter typing" id="hello-typing"></span></h1>
 
-      <!-- 2) My name is [Name] -->
       <h2 class="mb-3" id="name-line">
         <span class="prelude">My name is</span>
-        &nbsp;
-        <span class="name-highlight" id="name-animated">Ethan Griesman</span>
+        &nbsp;<span class="name-highlight" id="name-animated">Ethan Griesman</span>
       </h2>
 
-      <!-- 3) Welcome — always visible -->
       <h3 class="mb-4 welcome-line" id="welcome-line">Welcome to my Portfolio.</h3>
     </div>
 
@@ -269,7 +206,7 @@
   <p class="mb-0">&copy; 2025 Ethan Griesman. All rights reserved.</p>
 </footer>
 
-<!-- JS (no libraries needed) -->
+<!-- JS -->
 <script>
   // ===== CONFIG =====
   const CONFIG = {
@@ -281,14 +218,14 @@
     welcomeWordDelayMs: 95,
     revealDelays: { nameLineAfterHelloMs: 150, welcomeAfterNameMs: 140 },
 
-    // Galaxy (rotation only)
+    // Galaxy (hero-only, rotation only)
     galaxy: {
       stars: 1800,
       armStars: 1400,
       bulgeStars: 600,
       armTightness: 0.27,
       armNoise: 0.55,
-      rotationSpeed: 0.0006, // radians/frame
+      rotationSpeed: 0.0006,
       scale: 1.0
     }
   };
@@ -305,10 +242,11 @@
 
     const canvas    = document.getElementById('galaxyCanvas');
     const ctx       = canvas.getContext('2d');
+    const hero      = document.querySelector('.hero');
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-    /** Typewriter "Hello!" **/
+    // Typewriter
     async function runHello(){
       const text = CONFIG.helloText;
       if (prefersReduced) {
@@ -328,7 +266,7 @@
       helloH1.classList.add('flicker');
     }
 
-    /** Name line with per-letter jump (now inherits pure white color) **/
+    // Name letters jump
     function runNameLine(){
       nameLine.classList.add('line-in');
       const text = nameSpan.textContent;
@@ -341,7 +279,6 @@
         const s = document.createElement('span');
         s.className = 'jump-letter';
         s.textContent = ch;
-
         if (!prefersReduced){
           const delay = winStart + Math.random() * (winEnd - winStart);
           s.style.animationDelay = `${delay}ms`;
@@ -354,39 +291,38 @@
       nameSpan.appendChild(frag);
     }
 
-    /** Welcome wave with proper spacing */
+    // Welcome wave
     function runWelcome(){
       const words = welcomeEl.textContent.trim().split(/\s+/);
       const frag = document.createDocumentFragment();
       words.forEach((w, i) => {
         if (i>0) frag.appendChild(document.createTextNode(' '));
-        const wrapper = document.createElement('span');
-        wrapper.className = 'word';
+        const wrap = document.createElement('span');
+        wrap.className = 'word';
         const inner = document.createElement('span');
         inner.textContent = w;
         if (!prefersReduced) inner.style.animationDelay = `${i * CONFIG.welcomeWordDelayMs}ms`;
-        wrapper.appendChild(inner);
-        frag.appendChild(wrapper);
+        wrap.appendChild(inner);
+        frag.appendChild(wrap);
       });
       welcomeEl.textContent = '';
       welcomeEl.appendChild(frag);
     }
 
-    // ===== Galaxy Renderer (fixed, full screen, rotation only) =====
+    // ===== Earlier rotating spiral galaxy (hero-only) =====
     let W=0,H=0,cx=0,cy=0,t=0;
     let stars=[], bulge=[], armPts=[];
     const g = CONFIG.galaxy;
 
-    function resizeCanvas(){
+    function resizeCanvasToHero(){
+      const rect = hero.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      canvas.style.width = vw + 'px';
-      canvas.style.height = vh + 'px';
-      canvas.width  = Math.floor(vw * dpr);
-      canvas.height = Math.floor(vh * dpr);
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      canvas.width  = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      W = vw; H = vh; cx = W/2; cy = H*0.45;
+      W = rect.width; H = rect.height; cx = W/2; cy = H*0.45;
     }
 
     function randn(mean=0, std=1){
@@ -396,18 +332,14 @@
 
     function makeGalaxy(){
       stars=[]; bulge=[]; armPts=[];
-      // Bulge / core
+      // bulge
       for(let i=0;i<g.bulgeStars;i++){
         const r = Math.abs(randn(0, 60)) * (0.6 + Math.random()*0.8) * g.scale;
         const a = Math.random()*Math.PI*2;
-        bulge.push({
-          x: r*Math.cos(a),
-          y: r*Math.sin(a)*0.7,
-          s: 0.7 + Math.random()*1.6,
-          c: `rgba(${200+Math.floor(Math.random()*55)}, ${180+Math.floor(Math.random()*40)}, 255, ${0.25+Math.random()*0.5})`
-        });
+        bulge.push({ x:r*Math.cos(a), y:r*Math.sin(a)*0.7, s:0.7+Math.random()*1.6,
+          c:`rgba(${200+Math.floor(Math.random()*55)}, ${180+Math.floor(Math.random()*40)}, 255, ${0.25+Math.random()*0.5})` });
       }
-      // Spiral arms
+      // arms
       const arms=2;
       for(let k=0;k<arms;k++){
         const armOffset = (k/arms)*Math.PI*2;
@@ -418,16 +350,11 @@
           const r = rBase + randn(0, g.armNoise*28);
           const a = theta + randn(0,0.08);
           const ySkew = (Math.sin(theta*2)*6) + randn(0,2);
-          armPts.push({
-            x: r*Math.cos(a),
-            y: r*Math.sin(a)*0.72 + ySkew,
-            s: 0.6 + Math.random()*1.4,
-            hue: 210 + Math.random()*60,
-            alpha: 0.15 + Math.random()*0.55
-          });
+          armPts.push({ x:r*Math.cos(a), y:r*Math.sin(a)*0.72 + ySkew,
+                        s:0.6+Math.random()*1.4, hue:210+Math.random()*60, alpha:0.15+Math.random()*0.55 });
         }
       }
-      // Field
+      // field
       for(let i=0;i<g.stars;i++){
         const R = Math.random()*Math.max(W,H)*0.7 + 120;
         const a = Math.random()*Math.PI*2;
@@ -435,18 +362,12 @@
       }
     }
 
-    function dot(x,y,r, col){
-      ctx.beginPath();
-      ctx.fillStyle = col;
-      ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fill();
-    }
+    function dot(x,y,r, col){ ctx.beginPath(); ctx.fillStyle = col; ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
 
     function draw(){
       ctx.clearRect(0,0,W,H);
       ctx.save();
       ctx.translate(cx, cy);
-
       const rot = prefersReduced ? 0 : t * g.rotationSpeed;
       ctx.rotate(rot);
 
@@ -475,14 +396,7 @@
     }
 
     function boot(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      canvas.style.width = vw + 'px';
-      canvas.style.height = vh + 'px';
-      canvas.width  = Math.floor(vw * dpr);
-      canvas.height = Math.floor(vh * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      resizeCanvasToHero();
       makeGalaxy();
       draw();
     }
