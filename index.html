@@ -9,8 +9,8 @@
   <!-- Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
@@ -28,7 +28,7 @@
       --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
       --ink: #e8eef8;
       --ink-muted: #b7c3d9;
-      --accent: #0d6efd;
+      --accent: #0d6efd; /* matches Experience page */
       --btn-ink: #0e1528;
       --ring: rgba(13,110,253,.22);
       --radius: 16px;
@@ -48,7 +48,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar */
+    /* Navbar (same vibe as experience page) */
     .navbar{
       background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -70,59 +70,63 @@
       overflow: hidden;
     }
 
-    /* Headings: new display font */
-    .hero h1, .hero h2, .hero h3{
-      font-family: 'Space Grotesk', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      letter-spacing: .2px;
-      margin: 0;
-    }
-
-    /* Baseline sizes (unchanged feel) */
     .hero h1{
       font-weight: 800;
-      font-size: clamp(2.6rem, 7vw, 4.25rem);
+      letter-spacing: .4px;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      margin: 0 0 .25rem;
       text-shadow: 0 6px 26px rgba(13,110,253,.25);
-      line-height: 1.05;
     }
     .hero h2{
-      font-weight: 800;
-      font-size: clamp(1.4rem, 4vw, 2.15rem);
-      margin-top: .65rem;
+      font-weight: 700;
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
+      margin: .35rem 0 1rem;
+      color: #dbe6ff;
     }
     .hero h3{
       font-weight: 600;
-      font-size: clamp(1.05rem, 2.8vw, 1.3rem);
+      font-size: clamp(1rem, 2.7vw, 1.25rem);
       color: var(--ink-muted);
-      margin-top: 1rem;
+      margin: 0 0 1.5rem;
     }
 
-    /* Animated gradient name */
+    /* Name highlight baseline */
     .name-highlight{
-      position: relative;
-      display: inline-block;
-      background: linear-gradient(90deg, #7aa8ff, #a1ffe0, #ffd38b, #7aa8ff);
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: shimmer 6s linear infinite;
-      text-decoration: none; /* we’ll use a custom underline instead */
-    }
-    .name-highlight::after{
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -.25em;
-      height: 3px;
-      background: linear-gradient(90deg, rgba(13,110,253,.0), rgba(13,110,253,.6), rgba(13,110,253,.0));
-      transform-origin: left;
-      transform: scaleX(0);
-      border-radius: 999px;
-      animation: underlineGrow .9s ease .35s forwards;
+      text-decoration: none;
     }
 
-    /* Decorative glow behind hero */
+    /* === Jump animation styling (added) === */
+
+    /* Bright blue name + optional gentle glow */
+    .name-highlight {
+      color: #1ea7ff;
+      font-weight: 800;
+      text-shadow: 0 0 18px rgba(30,167,255,.18);
+    }
+
+    /* Each letter becomes inline-block for animation */
+    .jump-letter {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+
+    /* One-time jump animation */
+    @keyframes jumpOnce {
+      0%   { transform: translateY(0); }
+      30%  { transform: translateY(-12px); }  /* jump up */
+      60%  { transform: translateY(3px); }    /* settle */
+      100% { transform: translateY(0); }      /* stabilize */
+    }
+
+    /* Reduced-motion users: no animation */
+    @media (prefers-reduced-motion: reduce) {
+      .jump-letter {
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+
+    /* Accent glow card behind hero (subtle) */
     .hero-card{
       position: absolute;
       inset: auto 50% -60px 50%;
@@ -134,70 +138,10 @@
       pointer-events: none;
     }
 
-    /* === Animations === */
-
-    /* Shimmering gradient */
-    @keyframes shimmer {
-      0%   { background-position: 0% 50%; }
-      100% { background-position: 300% 50%; }
-    }
-    /* Underline grow */
-    @keyframes underlineGrow {
-      0%   { transform: scaleX(0); opacity: .0; }
-      60%  { opacity: 1; }
-      100% { transform: scaleX(1); opacity: 1; }
-    }
-
-    /* Letter pop-in (with slight 3D) */
-    .pop-seq span{
-      display: inline-block;
-      transform: translateY(12px) rotateX(30deg);
-      opacity: 0;
-      filter: blur(2px);
-      animation: popIn .7s cubic-bezier(.2,.8,.2,1) forwards;
-    }
-    @keyframes popIn{
-      0%{
-        opacity: 0;
-        transform: translateY(12px) rotateX(30deg) scale(.98);
-        filter: blur(2px);
-      }
-      60%{
-        opacity: 1;
-        transform: translateY(-2px) rotateX(0) scale(1.02);
-        filter: blur(0);
-      }
-      100%{
-        opacity: 1;
-        transform: translateY(0) rotateX(0) scale(1);
-      }
-    }
-
-    /* Subtle word slide for h3 */
-    .slide-words span{
-      display: inline-block;
-      transform: translateY(8px);
-      opacity: 0;
-      animation: slideUp .6s ease-out forwards;
-    }
-    @keyframes slideUp{
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Trigger only when in view */
-    .reveal .pop-seq span{ animation-play-state: running; }
-    .reveal .slide-words span{ animation-play-state: running; }
-
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .name-highlight{ animation: none; }
-      .name-highlight::after{ animation: none; transform: scaleX(1); }
-      .pop-seq span, .slide-words span{
-        animation: none !important;
-        transform: none !important;
-        opacity: 1 !important;
-        filter: none !important;
-      }
+      .btn-hero{ transition: none; }
+      .btn-hero:hover{ transform:none; }
     }
 
     footer{
@@ -231,19 +175,15 @@
 
 <main class="page">
   <section id="home" class="hero">
-    <div class="container" id="hero-anim">
-      <!-- h1 & h3 will be split into letters, staggered -->
-      <h1 class="mb-2 pop-target">Hello!</h1>
-
-      <!-- Name line: animated gradient + underline -->
+    <div class="container">
+      <h1 class="mb-2">Hello!</h1>
       <h2 class="mb-3">
-        My name is <span class="name-highlight">Ethan Griesman</span>
+        My name is <span class="name-highlight jump-name">Ethan Griesman</span>
       </h2>
-
-      <!-- h3 will slide word-by-word -->
-      <h3 class="mb-4 slide-target">Welcome to my portfolio.</h3>
+      <h3 class="mb-4">Welcome to my portfolio.</h3>
     </div>
 
+    <!-- decorative glow -->
     <div class="hero-card" aria-hidden="true"></div>
   </section>
 </main>
@@ -256,64 +196,42 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="scripts.js" defer></script>
 
+<!-- Jump animation script (added) -->
 <script>
-  // Helper: wrap each letter in a span with incremental delays
-  function splitLetters(el, baseDelay = 0, step = 28) {
+  (function() {
+    const el = document.querySelector('.jump-name');
+    if (!el) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const text = el.textContent;
-    el.textContent = '';
+    el.textContent = ''; // clear original
+
+    // Config: total window for jumps (ms)
+    const TOTAL_WINDOW_MS = 20000;   // 20 seconds
+    const DURATION_MS = 600;         // each jump lasts ~0.6s
+    const MAX_DELAY_MS = Math.max(0, TOTAL_WINDOW_MS - DURATION_MS - 200);
+
     const frag = document.createDocumentFragment();
-    let delay = baseDelay;
     for (const ch of text) {
+      if (ch === ' ') {
+        frag.appendChild(document.createTextNode(' '));
+        continue;
+      }
       const span = document.createElement('span');
+      span.className = 'jump-letter';
       span.textContent = ch;
-      span.style.animationDelay = (delay/1000) + 's';
+
+      if (!prefersReduced) {
+        const randomDelay = Math.random() * MAX_DELAY_MS; // random start within window
+        span.style.animation = `jumpOnce ${DURATION_MS}ms cubic-bezier(.2,.7,.2,1) ${randomDelay}ms 1 both`;
+      }
+
       frag.appendChild(span);
-      delay += (ch.trim() ? step : step/2); // smaller step for spaces
     }
-    el.classList.add('pop-seq');
     el.appendChild(frag);
-  }
-
-  // Helper: wrap each word for slide-up with incremental delays
-  function splitWords(el, baseDelay = 100, step = 70) {
-    const words = el.textContent.split(' ');
-    el.textContent = '';
-    const frag = document.createDocumentFragment();
-    words.forEach((w, i) => {
-      const span = document.createElement('span');
-      span.textContent = (i ? ' ' : '') + w;
-      span.style.animationDelay = ((baseDelay + i*step)/1000) + 's';
-      frag.appendChild(span);
-    });
-    el.classList.add('slide-words');
-    el.appendChild(frag);
-  }
-
-  // Prepare elements
-  const h1 = document.querySelector('.pop-target');
-  const h3 = document.querySelector('.slide-target');
-  if (h1) splitLetters(h1, 0, 32);
-  if (h3) splitWords(h3, 150, 80);
-
-  // Reveal on view
-  const hero = document.getElementById('hero-anim');
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (!prefersReduced && hero) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          hero.classList.add('reveal');
-          io.disconnect();
-        }
-      });
-    }, { threshold: .4 });
-    io.observe(hero);
-  } else {
-    // No animation / reduced motion: show immediately
-    hero && hero.classList.add('reveal');
-  }
+  })();
 </script>
 
 </body>
