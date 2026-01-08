@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ethan Griesman | Projects</title>
+
+  <!-- Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg: #0b1224;
+      --bg-grad: linear-gradient(180deg, #0a132a 0%, #0b1224 100%);
+      --ink: #e8eef8;
+      --ink-muted: #b7c3d9;
+      --card: #ffffff;
+      --ink-dark: #0e1528;
+      --muted-dark: #5f6a83;
+      --accent: #0d6efd;
+      --ring: rgba(13,110,253,.18);
+      --radius: 18px;
+      --shadow-1: 0 10px 30px rgba(7,14,32,.10);
+      --shadow-2: 0 18px 55px rgba(7,14,32,.14);
+      --container: 1140px;
+    }
+
+    html, body { height:100%; }
+    body{
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 520px at 82% -10%, rgba(13,110,253,.16), transparent 60%),
+        var(--bg-grad);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Navbar (cohesive with other pages) */
+    .navbar{
+      background: linear-gradient(90deg, #0a142c, #081025 60%, #070d1f);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      backdrop-filter: saturate(1.2) blur(4px);
+    }
+    .navbar .navbar-brand{ color:#e8eef8; font-weight:600; letter-spacing:.2px; }
+    .navbar-dark .nav-link{ color:#c9d3e7; }
+    .navbar-dark .nav-link:hover,
+    .navbar-dark .nav-link.active{ color:#ffffff; }
+
+    .page{ padding-top:84px; }
+    .container{ max-width: var(--container); }
+
+    /* Header */
+    .projects-hero{
+      text-align:center;
+      padding: 56px 0 24px;
+    }
+    .projects-hero h1{
+      margin:0 0 .25rem;
+      font-weight:800;
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-shadow: 0 6px 26px rgba(13,110,253,.22);
+    }
+    .projects-hero p{ margin:0; color:var(--ink-muted); }
+
+    /* Cards */
+    .projects-grid{ margin-top: 24px; }
+
+    .project-card{
+      background: var(--card);
+      border: 0;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-1);
+      overflow: hidden;
+      display:flex; flex-direction:column;
+      height:100%;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .project-card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-2); }
+
+    /* Cover image with aspect ratio */
+    .project-cover{
+      position: relative;
+      width:100%;
+      padding-top: 56.25%; /* 16:9 */
+      overflow: hidden;
+      background: #eef2ff;
+    }
+    .project-cover img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit: cover;
+      transition: transform .3s ease;
+    }
+    .project-card:hover .project-cover img{ transform: scale(1.03); }
+
+    .project-body{
+      padding: 18px 18px 16px;
+      display:flex; flex-direction:column; gap:10px;
+      color: var(--ink-dark);
+    }
+    .project-title{
+      margin:0; font-weight:700; font-size:1.1rem; line-height:1.3;
+    }
+    .project-desc{
+      margin:0; color:#263148; line-height:1.55;
+    }
+
+    /* Footer area inside card */
+    .project-actions{
+      display:flex; align-items:center; gap:10px; justify-content:flex-start;
+      margin-top: 6px;
+    }
+    .btn-gh{
+      font-weight:600;
+      border-radius: 12px;
+      padding: .45rem .7rem;
+      border: 1px solid #d2d7e3;
+      color: #0c1326;
+      background:#fff;
+      box-shadow: 0 4px 12px rgba(7,14,32,.08);
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .btn-gh:hover{
+      transform: translateY(-1px);
+      border-color: #c4cbe0;
+      box-shadow: 0 8px 18px rgba(7,14,32,.12);
+      text-decoration: none;
+    }
+
+    /* Footer */
+    footer{ background:#070d1f; color:#b7c3d9; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .project-card, .btn-gh{ transition: none; }
+      .project-card:hover{ transform:none; }
+      .project-cover img{ transition:none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Ethan Griesman</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+        <li class="nav-item active"><a class="nav-link" href="projects.html">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <section id="projects" class="pb-5">
+    <div class="container">
+      <header class="projects-hero">
+        <h1>My Projects</h1>
+        <p>A curated set of things I’ve built, shipped, or explored.</p>
+      </header>
+
+      <div class="row projects-grid">
+
+        <!-- 1. UMI-E+ -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/weather.png" alt="Workflow for UMI-E+ Data Integration cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Workflow for UMI-E+ Data Integration</h5>
+              <p class="project-desc">
+                Built a scalable Python pipeline to automate geometric data extraction from 3D models of downtown Des Moines.
+                Generated 50k+ files with tree parameters for shading/moisture analyses, streamlining urban energy simulations.
+                Presented at NCUR (Long Beach, CA) in April 2024.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/Workflow-for-UMI-E-Integration" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 2. Movie Magnet -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/agile.jpg" alt="Movie Magnet Android App cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Movie Magnet (Android)</h5>
+              <p class="project-desc">
+                Guided front-end development of full-stack application enabling users to discover and connect with peers based on shared movie interests, 
+                integrating mobile UI, backend services, and persistent data storage. Optimized database queries and REST API endpoints to reduce latency 
+                and support scalable retrieval of user profiles, improving application responsiveness and enabling growth to larger datasets.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/Movie-Magnet-Android-App" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 3. Roomba -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/circuit.jpg" alt="iRobot Roomba navigation project cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">iRobot Roomba Navigation</h5>
+              <p class="project-desc">
+                Programmed a Roomba to traverse an obstacle field using PING sensors, identify the tallest cylinder, and return
+                to start within a 10-minute constraint. Converted polar sensor data to Cartesian coordinates and transmitted results 
+                over UART to PuTTY, enabling real-time visualization of object positions and environmental grids during mission.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/iRobot-Roomba-Navigation" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 4. Arduino -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/humidity.jpeg" alt="Arduino Temp/Humidity Sensor cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Arduino Temp/Humidity Sensor</h5>
+              <p class="project-desc">
+                Built an Arduino-based climate monitor with humidity/temperature sensor and LCD output.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/Arduino-Climate-Monitoring-System" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 5. Binary Tree Decoder -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/binary tree.png" alt="Binary Tree Decoder cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Binary Tree Decoder</h5>
+              <p class="project-desc">
+                Built a Java tool to decode archived messages via a binary tree. Efficient traversal + rich stats output; demonstrates
+                recursion, data structures, and algorithmic problem-solving.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/COMS-228" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 6. Portfolio site -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/portfolio.png" alt="Personal portfolio website cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Personal Portfolio Website</h5>
+              <p class="project-desc">
+                Designed this responsive portfolio site using CSS, HTML, and JavaScript with cohesive branding, animations, and simultaneous GitHub Pages deployment. Started in Fall 2024
+                and finished in Fall 2025. More updates are yet to come however, so stay tuned!
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/yourusername/portfolio" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 7. ConnectFour -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/image19.jpg" alt="ConnectFour project cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">ConnectFour Game</h5>
+              <p class="project-desc">
+                Created interactive Java game for COMS 227: full back-end logic, rules/score/state, plus save/load for a smooth UX.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/COMS-227" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 8. Single Cycle MIPS -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/pipeline.png" alt="Single Cycle MIPS Processor cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Single Cycle MIPS Processor</h5>
+              <p class="project-desc">
+                Led implementation of a MIPS Assembly + VHDL CPU design with pipeline stages (IF, ID, EX, MEM, WB), hazard detection & forwarding to
+                improve throughput. Benchmarked vs. non-pipelined implementation with significant cycle reduction.
+              </p>
+              <div class="project-actions">
+                <a class="btn-gh" href="https://github.com/EthanGriesman/Single-Cycle-MIPS-Processor" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+                <!-- 9. NEW: Unity Grid Pathfinding -->
+        <div class="col-lg-4 col-md-6 mb-4 d-flex">
+          <article class="project-card w-100">
+            <div class="project-cover">
+              <img src="images/unity-grid.png" alt="Unity Grid Pathfinding and Movement System cover" loading="lazy">
+            </div>
+            <div class="project-body">
+              <h5 class="project-title">Senior Design Project: Pathfinding Game (In Progress)</h5>
+              <p class="project-desc">
+                Built a 2D/3D grid game in Unity with cached neighbor lookups, click-to-move, and runtime visualization. Implements Dijkstra/A* on a
+                SimplePointGrid2D with adjacency (x±1, y±1) and multi-Z layers (0, 0.5, 1). Includes camera-centering, hover/highlight, and gizmo
+                rendering for debugging.
+              </p>
+              <div class="project-actions">
+                <!-- TODO: replace with the actual repo when ready -->
+                <a class="btn-gh" href="https://github.com/EthanGriesman" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="text-center py-3">
+  <p class="mb-0">&copy; 2026 Ethan Griesman. All rights reserved.</p>
+</footer>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
